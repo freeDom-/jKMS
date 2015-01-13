@@ -5,13 +5,14 @@ import jKMS.cards.Card;
 import jKMS.cards.SellerCard;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+@Component
 public class Package {
 	
 	@Autowired
@@ -19,6 +20,13 @@ public class Package {
 	private char name;
 	private List<Card> bCards;
 	private List<Card> sCards;
+	
+	public Package(){
+		this.name = 'A';
+		this.bCards = new LinkedList<>();
+		this.sCards = new LinkedList<>();
+		kms.getConfiguration().addPackage(this);
+	}
 	
 	public Package(char name)	{
 		this.name = name;
