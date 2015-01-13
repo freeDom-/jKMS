@@ -24,6 +24,7 @@ public class Package {
 		this.name = name;
 		this.bCards = new LinkedList<>();
 		this.sCards = new LinkedList<>();
+		kms.getConfiguration().addPackage(this);
 	}
 	
 	public char getName()	{

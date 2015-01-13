@@ -208,33 +208,14 @@ public class Preparation extends State	{
 				   Iterator<Card> cardIter = cardSet.iterator();
 				   while(cardIter.hasNext()){
 					   Card card = (Card) cardIter.next();
-					   str.append("Card:"+card.getId()+":"+card.getValue()+":"+card.getPackage()).append(line);
+					   str.append("Card:"+card.getId()+":"+card.getValue()+":"+card.getPackage().getName()).append(line);
 				   }
 				   LogicHelper.print("Create outputstreamformat successful.");
 				   o.write(str.toString().getBytes());
-				   //write information to file
-//				   if(o instanceof FileOutputStream){
-//					   FileOutputStream fo = (FileOutputStream)o;
-//					   fo.write(str.toString().getBytes());
-//					   fo.close();
-//				   }
-//				   else if(o instanceof ByteArrayOutputStream){
-//					   ByteArrayOutputStream bo = (ByteArrayOutputStream)o;
-//					   bo.write(str.toString().getBytes());
-//					   bo.close();
-//				   }
-//				   else{
-//					   return false;
-//				   }
-				 //fw.write(str.toString());
-				 //fw.close();
 				   LogicHelper.print("save() successful!");
 			       return true;
 		 }
 	}
-
-
-
 	
 	// generateCardSet
 	// Generate an ordered, random Set of Cards using

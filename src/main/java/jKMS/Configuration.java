@@ -57,6 +57,10 @@ public class Configuration {
 		}
 		return null;
 	}
+	
+	public boolean addPackage(Package pack)	{
+		return this.packages.add(pack);
+	}
 
 	public int getPlayerCount() {
 		return playerCount;

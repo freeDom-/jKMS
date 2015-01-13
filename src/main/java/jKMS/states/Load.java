@@ -1,6 +1,7 @@
 package jKMS.states;
 
 import jKMS.Amount;
+import jKMS.Package;
 import jKMS.Kartoffelmarktspiel;
 import jKMS.LogicHelper;
 import jKMS.cards.BuyerCard;
@@ -97,6 +98,7 @@ public class Load extends State {
             			 throw new FalseLoadFileException("No Cards found, please do not change the load file!");
             		 }
             	 }
+            	 //Package pack = new Package(sa[3].trim().charAt(0));
             	 LogicHelper.print("Loaded: bDistribution = " + bDistributionLoad.toString());
     			 LogicHelper.print("Loaded: sDistribution = " + sDistributionLoad.toString());
             	 //load Cards and set them in cardSet
@@ -104,10 +106,16 @@ public class Load extends State {
             		 Card card;
             		 buf=buf.trim();
             		 String[] sa = buf.split(":|\\s");
+            		 // Get package with actual char
+            		 Package pack = kms.getConfiguration().getPackage(sa[3].trim().charAt(0));
+            		 // Check if existing
+            		 if(pack == null)	{
+                    	 pack = new Package(sa[3].trim().charAt(0));
+            		 }            		
             		 if((Integer.valueOf(sa[1])%2) == 0){
-            			card = new SellerCard(Integer.valueOf(sa[1].trim()),Integer.valueOf(sa[2].trim()),sa[3].trim().charAt(0));
+            			card = new SellerCard(Integer.valueOf(sa[1].trim()),Integer.valueOf(sa[2].trim()),pack);
             		 }else {
-            			card = new BuyerCard(Integer.valueOf(sa[1].trim()),Integer.valueOf(sa[2].trim()),sa[3].trim().charAt(0));
+            			card = new BuyerCard(Integer.valueOf(sa[1].trim()),Integer.valueOf(sa[2].trim()),pack);
             		 }
             		 cardSet.add(card);
                		 buf=br.readLine();
