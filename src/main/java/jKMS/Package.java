@@ -117,6 +117,7 @@ public class Package {
 	 */
 	public boolean remove(int ID)	{
 		Card card = this.getCard(ID);
+		//if(card==null) return false to prevent NullPointerException necessary?
 		if(card instanceof BuyerCard)
 			return kms.getCards().remove(card) && bCards.remove(card);
 		if(card instanceof SellerCard)

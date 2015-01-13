@@ -3,6 +3,7 @@ package jKMS.states;
 import jKMS.Amount;
 import jKMS.Kartoffelmarktspiel;
 import jKMS.LogicHelper;
+import jKMS.Package;
 import jKMS.Pdf;
 import jKMS.cards.BuyerCard;
 import jKMS.cards.Card;
@@ -239,7 +240,7 @@ public class Preparation extends State	{
 	// Generate an ordered, random Set of Cards using
 	// bDistribution and sDistribution
 	@Override
-	public void generateCards() throws WrongRelativeDistributionException, WrongAssistantCountException, WrongFirstIDException, WrongPlayerCountException {
+	public void generateCards() throws WrongRelativeDistributionException, WrongAssistantCountException, WrongFirstIDException, WrongPlayerCountException {	
 		// DECLARATION
 		
 		//for put seller and buyer distribution
@@ -254,32 +255,31 @@ public class Preparation extends State	{
 		
 		//for put packages
 		int packid, id, packsize;
+		Package pack;
 		int[] packdistribution =LogicHelper.getPackageDistribution(kms.getPlayerCount(),kms.getAssistantCount());
 		
 		//clear Card Set
 		kms.getCards().clear();
 
 		// IMPLEMENTATION
-		
+
 		//test is there a conform configuration?
 		if(kms.getPlayerCount() != (LogicHelper.getAbsoluteSum(bTemp) +  LogicHelper.getAbsoluteSum(sTemp)))throw new WrongPlayerCountException();
 		if(kms.getAssistantCount() <= 0)throw new WrongAssistantCountException();
 		if(kms.getConfiguration().getFirstID() < 0)throw new WrongFirstIDException();
 		if((LogicHelper.getRelativeSum(bTemp) +  LogicHelper.getRelativeSum(sTemp)) != 200) throw new WrongRelativeDistributionException(); // muss in der summe 200 ergeben, da jede distribution in sich 100 ergibt
 		
+		//Create packages
+		for(int i = 0; i< kms.getAssistantCount(); i++){
+			kms.getPackages().add(new Package(LogicHelper.IntToPackage(i)));
+		}
 		
-		
-		
-
-		packid =0;//package index 0 for Pack A, 1 for Pack B ...	
-		//amount of cards in the first pack
-		// 0 cards of package A
-		packsize = 0;
+		packid = 0;//package index 0 for Pack A, 1 for Pack B ...
+		pack = kms.getPackage(LogicHelper.IntToPackage(packid));
 		id  = kms.getConfiguration().getFirstID();
 		
-		//put seller and buyer distribution and put packages		
+		//Distribute cards
 		while ((bTemp.isEmpty() != true) || (sTemp.isEmpty() != true)) {
-			
 			// Create Buyer Card
 			if((id % 2) == 1 && bKeys.size() > 0){ // TODO TEST !!!
 				//all buyercards have an uneven id
@@ -287,54 +287,42 @@ public class Preparation extends State	{
 				randomKey = bKeys.get(randomListEntry);
 			
 			   //card is in the pack
-				if(packsize < packdistribution[packid]){
-					kms.getCards().add(new BuyerCard(id, randomKey, LogicHelper.IntToPackage(packid)));
-					packsize++;
+				if(pack.getCards().size() < packdistribution[packid]){
+					kms.getCards().add(new BuyerCard(id, randomKey, pack));
 				}else {
 						packid++; //get amount of cards from the next packaga
-						kms.getCards().add(new BuyerCard(id, randomKey, LogicHelper.IntToPackage(packid)));
-						packsize = 1; // reset packsize first card is in! --> 1
+						pack = kms.getPackage(LogicHelper.IntToPackage(packid));
+						kms.getCards().add(new BuyerCard(id, randomKey, pack));
 				}
 				
-
-
-		
 				bTemp.put(randomKey, new Amount(bTemp.get(randomKey).getRelative(), bTemp.get(randomKey).getAbsolute() - 1)); 
 				if (bTemp.get(randomKey).getAbsolute() == 0) {
 					bTemp.remove(randomKey);
 					bKeys.remove(randomListEntry);
 				}
-
-			 
 			}
-			if((id % 2) == 0 && sKeys.size() > 0){
-
-				// Create Seller Card
-				randomListEntry = random.nextInt(sKeys.size());
-				randomKey = sKeys.get(randomListEntry);
-
-				if(packsize < packdistribution[packid]){
-					kms.getCards().add(new SellerCard(id, randomKey, LogicHelper.IntToPackage(packid)));
-					packsize++;
-				}else {
-				//a new package start
-						packid++;
-						kms.getCards().add(new SellerCard(id, randomKey, LogicHelper.IntToPackage(packid)));
-						packsize = 1;
-				}
-
-				sTemp.put(randomKey, new Amount(sTemp.get(randomKey).getRelative(), sTemp.get(randomKey).getAbsolute() - 1));
-				if (sTemp.get(randomKey).getAbsolute() == 0) {
-					sTemp.remove(randomKey);
-					sKeys.remove(randomListEntry);
-				}
-
-		  }
-			
-		  id++;
-		  
 		}
-	}			
+		if((id % 2) == 0 && sKeys.size() > 0){
+			//all sellercards have an uneven id
+			randomListEntry = random.nextInt(sKeys.size());
+			randomKey = sKeys.get(randomListEntry);
+		
+		   //card is in the pack
+			if(pack.getCards().size() < packdistribution[packid]){
+				kms.getCards().add(new SellerCard(id, randomKey, pack));
+			}else {
+					packid++; //get amount of cards from the next packaga
+					pack = kms.getPackage(LogicHelper.IntToPackage(packid));
+					kms.getCards().add(new SellerCard(id, randomKey, pack));
+			}
+			
+			bTemp.put(randomKey, new Amount(bTemp.get(randomKey).getRelative(), bTemp.get(randomKey).getAbsolute() - 1)); 
+			if (bTemp.get(randomKey).getAbsolute() == 0) {
+				bTemp.remove(randomKey);
+				bKeys.remove(randomListEntry);
+			}
+		}
+	}
 
 	// newGroup
 	// Creates a new entry for the bDistribution or sDistribution Map,

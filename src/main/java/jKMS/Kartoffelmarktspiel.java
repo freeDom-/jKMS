@@ -113,4 +113,12 @@ public class Kartoffelmarktspiel {
 		return configuration.getsDistribution();
 	}
 	
+	public Set<Package> getPackages() {
+		return configuration.getPackages();
+	}
+	
+	public Package getPackage(char pack) {
+		return configuration.getPackage(pack);
+	}
+	
 }

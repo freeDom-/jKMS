@@ -1,6 +1,7 @@
 package jKMS;
 
 
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -22,6 +23,7 @@ public class Configuration {
 		
 		setbDistribution(new TreeMap<Integer, Amount>());
 		setsDistribution(new TreeMap<Integer, Amount>());
+		setPackages(new LinkedHashSet<Package>());
 		setFirstID(1001);
 	}
 	
@@ -40,6 +42,13 @@ public class Configuration {
 	}
 	
 // getter and setter make the world better ;)
+	public Set<Package> getPackages() {
+		return packages;
+	}
+
+	public void setPackages(Set<Package> packages) {
+		this.packages = packages;
+	}
 	
 	public Package getPackage(char name)	{
 		for(Package pack : packages)	{
@@ -48,7 +57,7 @@ public class Configuration {
 		}
 		return null;
 	}
-	
+
 	public int getPlayerCount() {
 		return playerCount;
 	}
