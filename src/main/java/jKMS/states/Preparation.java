@@ -235,7 +235,7 @@ public class Preparation extends State	{
 		int randomKey, randomListEntry;
 		
 		//for put packages
-		int packid, id, packsize;
+		int packid, id;
 		Package pack;
 		int[] packdistribution =LogicHelper.getPackageDistribution(kms.getPlayerCount(),kms.getAssistantCount());
 		
@@ -252,7 +252,7 @@ public class Preparation extends State	{
 		
 		//Create packages
 		for(int i = 0; i< kms.getAssistantCount(); i++){
-			kms.getPackages().add(new Package(LogicHelper.IntToPackage(i)));
+			new Package(LogicHelper.IntToPackage(i));
 		}
 		
 		packid = 0;//package index 0 for Pack A, 1 for Pack B ...
@@ -282,27 +282,27 @@ public class Preparation extends State	{
 					bKeys.remove(randomListEntry);
 				}
 			}
-		}
-		if((id % 2) == 0 && sKeys.size() > 0){
-			//all sellercards have an uneven id
-			randomListEntry = random.nextInt(sKeys.size());
-			randomKey = sKeys.get(randomListEntry);
-		
-		   //card is in the pack
-			if(pack.getCards().size() < packdistribution[packid]){
-				kms.getCards().add(new SellerCard(id, randomKey, pack));
-			}else {
-					packid++; //get amount of cards from the next packaga
-					pack = kms.getPackage(LogicHelper.IntToPackage(packid));
-					kms.getCards().add(new SellerCard(id, randomKey, pack));
-			}
+			if((id % 2) == 0 && sKeys.size() > 0){
+				//all sellercards have an uneven id
+				randomListEntry = random.nextInt(sKeys.size());
+				randomKey = sKeys.get(randomListEntry);
 			
-			bTemp.put(randomKey, new Amount(bTemp.get(randomKey).getRelative(), bTemp.get(randomKey).getAbsolute() - 1)); 
-			if (bTemp.get(randomKey).getAbsolute() == 0) {
-				bTemp.remove(randomKey);
-				bKeys.remove(randomListEntry);
+			   //card is in the pack
+				if(pack.getCards().size() < packdistribution[packid]){
+					kms.getCards().add(new SellerCard(id, randomKey, pack));
+				}else {
+						packid++; //get amount of cards from the next packaga
+						pack = kms.getPackage(LogicHelper.IntToPackage(packid));
+						kms.getCards().add(new SellerCard(id, randomKey, pack));
+				}
+				
+				bTemp.put(randomKey, new Amount(bTemp.get(randomKey).getRelative(), bTemp.get(randomKey).getAbsolute() - 1)); 
+				if (bTemp.get(randomKey).getAbsolute() == 0) {
+					bTemp.remove(randomKey);
+					bKeys.remove(randomListEntry);
+				}
+				id++;
 			}
-			id++;
 		}
 	}
 
