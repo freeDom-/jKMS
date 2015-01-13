@@ -233,9 +233,6 @@ public class Preparation extends State	{
 		 }
 	}
 
-
-
-	
 	// generateCardSet
 	// Generate an ordered, random Set of Cards using
 	// bDistribution and sDistribution
@@ -321,6 +318,7 @@ public class Preparation extends State	{
 				bTemp.remove(randomKey);
 				bKeys.remove(randomListEntry);
 			}
+			id++;
 		}
 	}
 
