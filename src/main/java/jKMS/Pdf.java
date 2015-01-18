@@ -80,7 +80,7 @@ public class Pdf {
         
         //----------------------IMPLEMENTATION-------------------------------
         //add titlecard for package A 
-        printcards.add(new SellerCard(-42,0, new Package('A'))); 
+        printcards.add(new SellerCard(-42,0, new Package('A', null))); 
         
         for(Card iter : cards){
 			if(packsize == packdis[packID] ){ //is there a new package ?
@@ -119,7 +119,7 @@ public class Pdf {
         		   i++;
         	    }   
            } 
-           bottomcards.add(new SellerCard(-42,0,null));// add wihtepage
+           bottomcards.add(new SellerCard(-42,0,new Package(' ', null)));// add wihtepage
        }
        
        //PRINT
@@ -132,8 +132,8 @@ public class Pdf {
         
         Iterator<Card> itertop = topcards.iterator();
         Iterator<Card> iterbot = bottomcards.iterator();
-        Card topcard = new SellerCard(0,0,null);
-        Card bottomcard = new SellerCard(0,0,null);
+        Card topcard = new SellerCard(0,0,new Package(' ', null));
+        Card bottomcard = new SellerCard(0,0,new Package(' ', null));
         
         //Content      
 
@@ -209,7 +209,7 @@ public class Pdf {
         //----------------------IMPLEMENTATION-------------------------------
        
         //add card for package idedifikation (first package) 
-        printcards.add(new BuyerCard(-42,0,new Package('A'))); 
+        printcards.add(new BuyerCard(-42,0,new Package('A', null))); 
         
         for(Card iter : cards){
 			if(packsize == packdis[packID]){ //is there a new package ? before printing first card of new pack packagepage
@@ -246,7 +246,7 @@ public class Pdf {
         		   i++;
         	   	}   
            } 
-           bottomcards.add(new SellerCard(-42,0,null));// add wihteside
+           bottomcards.add(new SellerCard(-42,0,new Package(' ', null)));// add wihteside
        }
        
        //PRINT
@@ -259,8 +259,8 @@ public class Pdf {
         
         Iterator<Card> itertop = topcards.iterator();
         Iterator<Card> iterbot = bottomcards.iterator();
-        Card topcard = new BuyerCard(0,0,null);
-        Card bottomcard = new BuyerCard(0,0,null);
+        Card topcard = new BuyerCard(0,0,new Package(' ', null));
+        Card bottomcard = new BuyerCard(0,0,new Package(' ', null));
         
         //Content       
 

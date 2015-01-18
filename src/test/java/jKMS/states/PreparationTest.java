@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import jKMS.Amount;
+import jKMS.Package;
 import jKMS.Application;
 import jKMS.Kartoffelmarktspiel;
 import jKMS.LogicHelper;
@@ -98,14 +99,16 @@ public class PreparationTest {
 				expectedsDistribution.put(56,new Amount(25,1));
 				expectedsDistribution.put(65,new Amount(25,1));
 				expectedsDistribution.put(66,new Amount(50,2));
-				expectedCardSet.add(new BuyerCard(1001,56,'A'));
-				expectedCardSet.add(new BuyerCard(1003,65,'A'));
-				expectedCardSet.add(new BuyerCard(1005,66,'B'));
-				expectedCardSet.add(new BuyerCard(1007,66,'B'));
-				expectedCardSet.add(new SellerCard(1002,56,'A'));
-				expectedCardSet.add(new SellerCard(1004,65,'A'));
-				expectedCardSet.add(new SellerCard(1006,66,'B'));
-				expectedCardSet.add(new SellerCard(1008,66,'B'));
+				Package a = kms.getConfiguration().newPackage('A');
+				Package b = kms.getConfiguration().newPackage('B');
+				expectedCardSet.add(new BuyerCard(1001,56,a));
+				expectedCardSet.add(new BuyerCard(1003,65,a));
+				expectedCardSet.add(new BuyerCard(1005,66,b));
+				expectedCardSet.add(new BuyerCard(1007,66,b));
+				expectedCardSet.add(new SellerCard(1002,56,a));
+				expectedCardSet.add(new SellerCard(1004,65,a));
+				expectedCardSet.add(new SellerCard(1006,66,b));
+				expectedCardSet.add(new SellerCard(1008,66,b));
 				
 				//setup loadTestFile for load()
 				String pathFile = "src/test/java/jKMS/states/preparationTestFile.txt";
@@ -366,11 +369,17 @@ public class PreparationTest {
        		 Card card;
        		 buf=buf.trim();
        		 String[] sa = buf.split(":|\\s");
-       		 if((Integer.valueOf(sa[1])%2) == 0){
-       			card = new SellerCard(Integer.valueOf(sa[1].trim()),Integer.valueOf(sa[2].trim()),sa[3].trim().charAt(0));
-       		 }else {
-       			card = new BuyerCard(Integer.valueOf(sa[1].trim()),Integer.valueOf(sa[2].trim()),sa[3].trim().charAt(0));
-       		 }
+       	// Get package with actual char
+    		 Package pack = kms.getConfiguration().getPackage(sa[3].trim().charAt(0));
+    		 // Check if existing
+    		 if(pack == null)	{
+            	 pack = kms.getConfiguration().newPackage(sa[3].trim().charAt(0));
+    		 }            		
+    		 if((Integer.valueOf(sa[1])%2) == 0){
+    			card = new SellerCard(Integer.valueOf(sa[1].trim()),Integer.valueOf(sa[2].trim()),pack);
+    		 }else {
+    			card = new BuyerCard(Integer.valueOf(sa[1].trim()),Integer.valueOf(sa[2].trim()),pack);
+    		 }
        		 expectedCardSet.add(card);
        		 buf=br.readLine();
        	 }

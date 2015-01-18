@@ -3,7 +3,6 @@ package jKMS.states;
 import jKMS.Amount;
 import jKMS.Kartoffelmarktspiel;
 import jKMS.LogicHelper;
-import jKMS.Package;
 import jKMS.Pdf;
 import jKMS.cards.BuyerCard;
 import jKMS.cards.Card;
@@ -37,15 +36,17 @@ public class Preparation extends State	{
 
 	private Pdf pdf;
 
-	
 	public Preparation(Kartoffelmarktspiel kms){
 		this.kms = kms;
 		this.pdf = new Pdf();
 	}
 	
-	//	Loads StandardConfiguration into kms.
-	//	This method only loads the relative values for displaying in Web Interface.
-	//	Absolute Values are calculated by Javascript and stored using the newGroup-Method.
+	/**
+	 * Loads StandardConfiguration into kms.
+	 * This method only loads the relative values for displaying in Web Interface.
+	 * Absolute Values are calculated by Javascript and stored using the newGroup-Method.
+	 * @see jKMS.states.State#loadStandardDistribution()
+	 */
 	@Override
 	public void loadStandardDistribution(){
 
@@ -73,9 +74,9 @@ public class Preparation extends State	{
 		
 	}
 	
-	
-	//setBasicConfig
-	//setter method for the number of players and assistants
+	/**
+	 * setter method for the number of players and assistants
+	 */
 	@Override
 	public void setBasicConfig(int playerCount, int assistantCount){
 		kms.getConfiguration().setPlayerCount(playerCount);
@@ -83,8 +84,6 @@ public class Preparation extends State	{
 		LogicHelper.print("SettingBasicConfiguration: PlayerCount = " + kms.getConfiguration().getPlayerCount() + "; AssistantCount = " + kms.getConfiguration().getAssistantCount());
 	}
 	
-	
-	//load Implementieren
 	@Override
 	public void load(MultipartFile file) throws NumberFormatException, IOException, EmptyFileException, FalseLoadFileException{
 	//set initial value for load
@@ -162,9 +161,6 @@ public class Preparation extends State	{
     	 
     }
 
-	
-		
-		//defalt path:Users/yangxinyu/git/jKMS
 	@Override
 	public boolean save(OutputStream o) throws IOException{
 		//take out information aus Configuration and kms
@@ -208,20 +204,38 @@ public class Preparation extends State	{
 				   Iterator<Card> cardIter = cardSet.iterator();
 				   while(cardIter.hasNext()){
 					   Card card = (Card) cardIter.next();
-					   str.append("Card:"+card.getId()+":"+card.getValue()+":"+card.getPackage().getName()).append(line);
+					   str.append("Card:"+card.getId()+":"+card.getValue()+":"+card.getPackage()).append(line);
 				   }
 				   LogicHelper.print("Create outputstreamformat successful.");
 				   o.write(str.toString().getBytes());
+				   //write information to file
+//				   if(o instanceof FileOutputStream){
+//					   FileOutputStream fo = (FileOutputStream)o;
+//					   fo.write(str.toString().getBytes());
+//					   fo.close();
+//				   }
+//				   else if(o instanceof ByteArrayOutputStream){
+//					   ByteArrayOutputStream bo = (ByteArrayOutputStream)o;
+//					   bo.write(str.toString().getBytes());
+//					   bo.close();
+//				   }
+//				   else{
+//					   return false;
+//				   }
+				 //fw.write(str.toString());
+				 //fw.close();
 				   LogicHelper.print("save() successful!");
 			       return true;
 		 }
 	}
 
-	// generateCardSet
-	// Generate an ordered, random Set of Cards using
-	// bDistribution and sDistribution
+	/**
+	 *  Generate an ordered, random Set of Cards
+	 *  using bDistribution and sDistribution
+	 * @see jKMS.states.State#generateCards()
+	 */
 	@Override
-	public void generateCards() throws WrongRelativeDistributionException, WrongAssistantCountException, WrongFirstIDException, WrongPlayerCountException {	
+	public void generateCards() throws WrongRelativeDistributionException, WrongAssistantCountException, WrongFirstIDException, WrongPlayerCountException {
 		// DECLARATION
 		
 		//for put seller and buyer distribution
@@ -235,32 +249,34 @@ public class Preparation extends State	{
 		int randomKey, randomListEntry;
 		
 		//for put packages
-		int packid, id;
-		Package pack;
+		int packid, id, packsize;
 		int[] packdistribution =LogicHelper.getPackageDistribution(kms.getPlayerCount(),kms.getAssistantCount());
 		
 		//clear Card Set
 		kms.getCards().clear();
 
 		// IMPLEMENTATION
-
+		
 		//test is there a conform configuration?
 		if(kms.getPlayerCount() != (LogicHelper.getAbsoluteSum(bTemp) +  LogicHelper.getAbsoluteSum(sTemp)))throw new WrongPlayerCountException();
 		if(kms.getAssistantCount() <= 0)throw new WrongAssistantCountException();
 		if(kms.getConfiguration().getFirstID() < 0)throw new WrongFirstIDException();
 		if((LogicHelper.getRelativeSum(bTemp) +  LogicHelper.getRelativeSum(sTemp)) != 200) throw new WrongRelativeDistributionException(); // muss in der summe 200 ergeben, da jede distribution in sich 100 ergibt
 		
-		//Create packages
-		for(int i = 0; i< kms.getAssistantCount(); i++){
-			new Package(LogicHelper.IntToPackage(i));
+		for(int i = 0; i < kms.getAssistantCount(); i++)	{
+			kms.getConfiguration().newPackage(LogicHelper.IntToPackage(i));
 		}
 		
-		packid = 0;//package index 0 for Pack A, 1 for Pack B ...
-		pack = kms.getPackage(LogicHelper.IntToPackage(packid));
+
+		packid =0;//package index 0 for Pack A, 1 for Pack B ...	
+		//amount of cards in the first pack
+		// 0 cards of package A
+		packsize = 0;
 		id  = kms.getConfiguration().getFirstID();
 		
-		//Distribute cards
+		//put seller and buyer distribution and put packages		
 		while ((bTemp.isEmpty() != true) || (sTemp.isEmpty() != true)) {
+			
 			// Create Buyer Card
 			if((id % 2) == 1 && bKeys.size() > 0){ // TODO TEST !!!
 				//all buyercards have an uneven id
@@ -268,47 +284,58 @@ public class Preparation extends State	{
 				randomKey = bKeys.get(randomListEntry);
 			
 			   //card is in the pack
-				if(pack.getCards().size() < packdistribution[packid]){
-					kms.getCards().add(new BuyerCard(id, randomKey, pack));
+				if(packsize < packdistribution[packid]){
+					kms.getCards().add(new BuyerCard(id, randomKey, kms.getPackage(LogicHelper.IntToPackage(packid))));
+					packsize++;
 				}else {
-						packid++; //get amount of cards from the next packaga
-						pack = kms.getPackage(LogicHelper.IntToPackage(packid));
-						kms.getCards().add(new BuyerCard(id, randomKey, pack));
+					packid++; //get amount of cards from the next packaga
+					kms.getCards().add(new BuyerCard(id, randomKey, kms.getPackage(LogicHelper.IntToPackage(packid))));
+					packsize = 1; // reset packsize first card is in! --> 1
 				}
-				
+		
 				bTemp.put(randomKey, new Amount(bTemp.get(randomKey).getRelative(), bTemp.get(randomKey).getAbsolute() - 1)); 
 				if (bTemp.get(randomKey).getAbsolute() == 0) {
 					bTemp.remove(randomKey);
 					bKeys.remove(randomListEntry);
 				}
+
+			 
 			}
 			if((id % 2) == 0 && sKeys.size() > 0){
-				//all sellercards have an uneven id
+
+				// Create Seller Card
 				randomListEntry = random.nextInt(sKeys.size());
 				randomKey = sKeys.get(randomListEntry);
-			
-			   //card is in the pack
-				if(pack.getCards().size() < packdistribution[packid]){
-					kms.getCards().add(new SellerCard(id, randomKey, pack));
-				}else {
-						packid++; //get amount of cards from the next packaga
-						pack = kms.getPackage(LogicHelper.IntToPackage(packid));
-						kms.getCards().add(new SellerCard(id, randomKey, pack));
-				}
-				
-				bTemp.put(randomKey, new Amount(bTemp.get(randomKey).getRelative(), bTemp.get(randomKey).getAbsolute() - 1)); 
-				if (bTemp.get(randomKey).getAbsolute() == 0) {
-					bTemp.remove(randomKey);
-					bKeys.remove(randomListEntry);
-				}
-				id++;
-			}
-		}
-	}
 
-	// newGroup
-	// Creates a new entry for the bDistribution or sDistribution Map,
-	// depending if isBuyer is true or false.
+				if(packsize < packdistribution[packid]){
+					kms.getCards().add(new SellerCard(id, randomKey, kms.getPackage(LogicHelper.IntToPackage(packid))));
+					packsize++;
+				}else {
+				//a new package start
+						packid++;
+						kms.getCards().add(new SellerCard(id, randomKey, kms.getPackage(LogicHelper.IntToPackage(packid))));
+						packsize = 1;
+				}
+
+				sTemp.put(randomKey, new Amount(sTemp.get(randomKey).getRelative(), sTemp.get(randomKey).getAbsolute() - 1));
+				if (sTemp.get(randomKey).getAbsolute() == 0) {
+					sTemp.remove(randomKey);
+					sKeys.remove(randomListEntry);
+				}
+
+		  }
+			
+		  id++;
+		  
+		}
+	}			
+
+	/**
+	 * Creates a new entry for the bDistribution or sDistribution Map
+	 * depending if isBuyer is true or false.
+	 * 
+	 * @param isBuyer indicates if a new entry must be created for bDistribution or sDistribution
+	 */
 	@Override
 	public void newGroup(boolean isBuyer, int price, int relativeNumber, int absoluteNumber) {
 		Map<Integer, Amount> distrib;
@@ -332,7 +359,6 @@ public class Preparation extends State	{
 		
 	}
 	
-	// createPDF - Delegates to PDF-Class
 	@Override
 	public void createPdf(boolean isBuyer, Document doc) throws DocumentException,IOException	{
 		

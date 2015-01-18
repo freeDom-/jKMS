@@ -5,34 +5,23 @@ import jKMS.cards.Card;
 import jKMS.cards.SellerCard;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-@Component
-public class Package {
+public class Package	{
 	
-	@Autowired
-	Kartoffelmarktspiel kms;
+	protected Kartoffelmarktspiel kms;
 	private char name;
 	private List<Card> bCards;
 	private List<Card> sCards;
 	
-	public Package(){
-		this.name = 'A';
-		this.bCards = new LinkedList<>();
-		this.sCards = new LinkedList<>();
-		kms.getConfiguration().addPackage(this);
-	}
-	
-	public Package(char name)	{
+	public Package(char name, Kartoffelmarktspiel kms)	{
 		this.name = name;
 		this.bCards = new LinkedList<>();
 		this.sCards = new LinkedList<>();
-		kms.getConfiguration().addPackage(this);
+		this.kms = kms;
 	}
 	
 	public char getName()	{
@@ -128,25 +117,49 @@ public class Package {
 		Card card = this.getCard(ID);
 		//if(card==null) return false to prevent NullPointerException necessary?
 		if(card instanceof BuyerCard)
-			return kms.getCards().remove(card) && bCards.remove(card);
+			return kms.getCards().remove(this.getCard(ID)) && bCards.remove(card);
 		if(card instanceof SellerCard)
-			return kms.getCards().remove(card) && sCards.remove(card);
+			return kms.getCards().remove(this.getCard(ID)) && sCards.remove(card);
 		return false;
 	}
 	
 	/*
-	 * Remove all cards after last card from this package
+	 * Remove all cards after last card from this package and card set
 	 */
 	public boolean removeCards(int lastID)	{
 		if(this.contains(lastID))	{
 			int i;
-			for(i = lastID; i <= this.getLastCard().getId(); i++)	{
-				if(this.contains(i))
-					this.remove(i);
+			int lastPackID = this.getLastCard().getId();
+			for(i = lastID; i <= lastPackID; i++)	{
+				if(this.contains(i))	{
+					Card actualCard = this.getCard(i);
+					// Remove from Package and card set
+					if(!this.remove(i))
+						break;
+					// Update Player Count
+					kms.getConfiguration().setPlayerCount(kms.getPlayerCount() - 1);
+					// Update distributions
+					Map<Integer, Amount> distrib = new HashMap<>();
+					if(actualCard instanceof BuyerCard)
+						distrib = kms.getConfiguration().getbDistribution();
+					else 
+						distrib = kms.getConfiguration().getsDistribution();
+					
+					distrib.get(actualCard.getValue()).setAbsolute(distrib.get(actualCard.getValue()).getAbsolute() - 1);
+					if(distrib.get(actualCard.getValue()).getAbsolute() == 0)
+						distrib.remove(actualCard.getValue());
+					
+				}
 			}
-			return i == (this.getLastCard().getId() + 1);
+			return i == lastPackID + 1;
 		}	else
-		return false;
+//			throw new WrongPackageException("Wrong Package");
+			return false;
+	}
+	
+	@Override
+	public String toString()	{
+		return Character.toString(this.name);
 	}
 
 }

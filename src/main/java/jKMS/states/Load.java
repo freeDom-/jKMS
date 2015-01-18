@@ -110,7 +110,7 @@ public class Load extends State {
             		 Package pack = kms.getConfiguration().getPackage(sa[3].trim().charAt(0));
             		 // Check if existing
             		 if(pack == null)	{
-                    	 pack = new Package(sa[3].trim().charAt(0));
+                    	 pack = kms.getConfiguration().newPackage(sa[3].trim().charAt(0));
             		 }            		
             		 if((Integer.valueOf(sa[1])%2) == 0){
             			card = new SellerCard(Integer.valueOf(sa[1].trim()),Integer.valueOf(sa[2].trim()),pack);

@@ -6,12 +6,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Configuration {
 	
-
+	@Autowired
+	private Kartoffelmarktspiel kms;
 	private int playerCount;
 	private int assistantCount;
 	private int firstID;
@@ -41,6 +43,12 @@ public class Configuration {
 		return str;
 	}
 	
+	public Package newPackage(char name)	{
+		Package pack = new Package(name, this.kms);
+		this.packages.add(pack);
+		return pack;
+	}
+	
 // getter and setter make the world better ;)
 	public Set<Package> getPackages() {
 		return packages;
@@ -56,10 +64,6 @@ public class Configuration {
 				return pack;
 		}
 		return null;
-	}
-	
-	public boolean addPackage(Package pack)	{
-		return this.packages.add(pack);
 	}
 
 	public int getPlayerCount() {

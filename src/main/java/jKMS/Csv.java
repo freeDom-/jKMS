@@ -99,8 +99,8 @@ public class Csv {
 			ids = iter.getSeller().getId();
 			bvalue = iter.getBuyer().getValue();
 			svalue = iter.getSeller().getValue();
-			packb = iter.getBuyer().getPackage();
-			packs = iter.getSeller().getPackage();
+			packb = iter.getBuyer().getPackage().getName();
+			packs = iter.getSeller().getPackage().getName();
 			price = iter.getPrice();
 			station = iter.getUri();
 			time = iter.getTime();
@@ -129,7 +129,7 @@ public class Csv {
 		for(Card iter : cards){
 			if(playedCards.contains(iter) == false){
 				cid = iter.getId();
-				cpack = iter.getPackage();
+				cpack = iter.getPackage().getName();
 				if(iter instanceof BuyerCard) ctyp = this.buyerCard;
 				if(iter instanceof SellerCard) ctyp = this.sellerCard;
 				cvalue = iter.getValue();
