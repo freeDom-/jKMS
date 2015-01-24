@@ -47,6 +47,7 @@ public class LoadTest {
 	public void setUp(){
 		kms.prepare();
 		kms.getCards().clear();
+		kms.getPackages().clear();
 		kms.getConfiguration().setbDistribution(new TreeMap<Integer, Amount>());
 		kms.getConfiguration().setsDistribution(new TreeMap<Integer, Amount>());
 		
@@ -65,7 +66,7 @@ public class LoadTest {
 		try{
 			kms.getState().generateCards();
 		}catch (Exception e) {
-			e.printStackTrace();	
+			e.printStackTrace();
 		}
 		
 		kms.load();
@@ -87,7 +88,7 @@ public class LoadTest {
 		expectedSet = new LinkedHashSet<Card>();
 		
 		for(Card iter : kms.getCards()){
-			if(iter.getId() < 1004){
+			if(iter.getId() < 1004 && iter.getPackage() == kms.getPackage('A')){
 				expectedSet.add(iter);
 				
 				if(iter instanceof BuyerCard) distrib = expectedBDistrib;
@@ -107,7 +108,6 @@ public class LoadTest {
 		//Test
 		
 		try{
-		
 			test = kms.getState().removeCard('A', 1004);
 		
 		}catch (Exception e) {
