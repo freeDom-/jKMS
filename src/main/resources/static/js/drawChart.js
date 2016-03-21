@@ -35,7 +35,8 @@ function drawPlayChart(data){
 							axisLabelUseCanvas: true,
 							axisLabelColour: "rgba(0,0,0,0.7)",
 							axisLabelFontSizePixels: 18
-						}
+						},
+						colors: ["#000000"]
 					}
 		
 		//draw the chart
@@ -85,7 +86,8 @@ function drawEvaluationChart(data){
 						},
 						grid:{
 							backgroundColor: "white"
-						}
+						},
+						colors: ["#000000", "#1d3cec", "#cb4b4b"]
 					}
 		
 		//draw the chart
