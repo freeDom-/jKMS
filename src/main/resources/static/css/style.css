@@ -377,6 +377,37 @@ input[type=checkbox]	{
 	width:				300px;
 }
 
+#footTools	{
+	position:			fixed;
+	bottom:0;
+	left: 0;
+	width:				100%;
+	background:			/*rgba(159,47,16,0.8);*/ rgba(80,80,80,0.9);
+	color:				white;
+	font-size:			95%;
+    z-index: 			99;
+}
+
+#footTools ul li {
+    list-style:			none;
+    float:				right;
+    text-align:			left;
+}
+
+#footTools ul li a {
+    text-decoration: 	none;
+    display: 			block;
+    color: 				rgba(110,210,0,1);
+    height:				100%;
+    padding:			2px 7px;
+    border-left:		1px solid white/*rgba(110,205,0,0.5)*/;
+}
+
+#footTools ul li a:hover {
+    background: 		rgba(110,210,0,1);
+    color:				rgba(50,50,50,1);
+}
+
 /*
 ############################### General #################################
 */
@@ -443,7 +474,7 @@ form#login	{
 
 #placeholder	{
 	width:				97%;
-	height:				93%;
+	height:				91%;
 	margin:				3% auto 0 auto;
 }
 

@@ -30,10 +30,7 @@
  				</ul>
  			</li>
  			<li th:if="${active} == 'play1'">
-				<a th:if="!${param.s}" href="play.html?s=stop" th:text="#{play.stop}"></a>
-			</li>
-			<li th:if="${active} == 'play2'">
-				<a th:if="${param.s} AND ${param.s[0]} == 'stop'" th:href="evaluate.html" th:text="#{play.evaluate}"></a>
+				<a th:if="!${param.s}" th:href="evaluate.html" th:text="#{play.stop}"></a>
 			</li>
 			<li th:if="${extra} == 2">
 				<a href="lottery.html" th:text="#{messages.lottery}"></a>

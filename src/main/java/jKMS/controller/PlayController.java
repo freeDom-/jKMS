@@ -10,7 +10,6 @@ import java.util.TreeMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -46,14 +45,11 @@ public class PlayController extends AbstractServerController {
 	 * @param 	s	 if game is stopped this parameter is 'stop', else false
 	 */
 	@RequestMapping(value = "/play")
-	public String play(Model model, @RequestParam(value= "s", required = false) String s) throws InvalidStateChangeException	{
+	public String play(Model model) throws InvalidStateChangeException	{
 
 		boolean stateChangeSuccessful = true;
 		
-		if(s != null && s.equals("stop"))
-			stateChangeSuccessful = ControllerHelper.stateHelper(kms, "evaluate");
-		else
-			stateChangeSuccessful = ControllerHelper.stateHelper(kms, "play");
+		stateChangeSuccessful = ControllerHelper.stateHelper(kms, "play");
 		
 		if(stateChangeSuccessful)	{
 			return "play";

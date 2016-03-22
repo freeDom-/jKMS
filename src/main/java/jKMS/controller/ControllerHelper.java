@@ -419,6 +419,36 @@ public class ControllerHelper extends AbstractController {
 	}
 	
 	/**
+	 * Gets a set of integers and converts it to a string for the javascript flot library
+	 * 
+	 * @param 	ints Set of integers
+	 * @param	middle equilibrium price for scaling
+	 * @param	type return positive or negative curve
+	 * @return 	string holding the contract information
+	 */
+	public static String intSetToString(Set<Integer> ints, Integer middle, String type){
+		if(ints.isEmpty()) return "[]";
+		
+		String str = "[";
+		int i = 0, lastint = 0;
+		
+		for(Integer integer : ints){
+			if(type == "pos")
+				integer = middle + integer/2;
+			else
+				integer = middle - integer/2;
+			str = str.concat("[" + i + "," + integer + "],");
+			i++;
+			lastint = integer;
+		}
+		str = str.concat("[" + i + "," + lastint + "],");
+		
+		str = str.substring(0, str.length()-1).concat("]");
+		
+		return str;		
+	}
+	
+	/**
 	 * Gets a map of distribution and converts it to a string for the javascript flot library
 	 * 
 	 * @param 	distribution one of the distribution Map as part of the Configuration class

@@ -10,9 +10,11 @@ import jKMS.exceptionHelper.NoIntersectionException;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +32,12 @@ import au.com.bytecode.opencsv.CSVWriter;
 @Controller
 public class EvaluationController extends AbstractServerController {
 	
+	class ReverseIntegerComparator implements Comparator<Integer>	{
+		public int compare(Integer o1, Integer o2){
+			return o2.compareTo(o1);
+		}
+	}
+	
 	@RequestMapping("/getEvaluation")
 	@ResponseBody
 	/**
@@ -37,7 +45,7 @@ public class EvaluationController extends AbstractServerController {
 	 * 
 	 * @return		string in json-like format, this string is needed for flot-library to plot the chart
 	 */
-	public String evaluationChart(){
+	public String evaluationChart() throws IllegalStateException, NoContractsException, NoIntersectionException{
 		//String of current play data
 		Set<Contract> contracts = kms.getContracts();
 		String playData = ControllerHelper.setToString(contracts);
@@ -49,12 +57,20 @@ public class EvaluationController extends AbstractServerController {
 		TreeMap<Integer, Amount> bDistribution = (TreeMap<Integer, Amount>) kms.getbDistribution();
 		String expectedDemand = ControllerHelper.mapToString(bDistribution.descendingMap());
 		
+		//String of renten
+		Set<Integer> renten = new TreeSet<Integer>(new ReverseIntegerComparator());
+		for(Contract contract : contracts){
+			renten.add(contract.getBuyer().getValue() - contract.getSeller().getValue());
+		}
+		Integer eqPrice = Math.round(kms.getState().getStatistics().get("eqPrice"));
+		String posRenten = ControllerHelper.intSetToString(renten, eqPrice, "pos");
+		String negRenten = ControllerHelper.intSetToString(renten, eqPrice, "neg");
 		
 		//min and max values for the chart
 		int[] minMax = ControllerHelper.getMinMax(contracts, sDistribution, bDistribution);
 		
 		//concatenate return string
-		String str = playData.concat(";" + expectedSupply + ";" + expectedDemand + ";" + minMax[0] + ";" + minMax[1]);
+		String str = playData.concat(";" + minMax[0] + ";" + minMax[1] + ";" + expectedSupply + ";" + expectedDemand + ";" + posRenten + ";" + negRenten);
 		
 		return str;
 		
@@ -99,7 +115,6 @@ public class EvaluationController extends AbstractServerController {
 	@RequestMapping(value = "/evaluate")
 	public String evaluate(Model model) throws InvalidStateChangeException, IllegalStateException, NoIntersectionException, CreateFolderFailedException	{
 		// State Change
-		
 		if(ControllerHelper.stateHelper(kms, "evaluate"))	{
 			
 			if(ControllerHelper.checkFolders())	{
@@ -139,6 +154,12 @@ public class EvaluationController extends AbstractServerController {
 			model.addAttribute("standardDeviation", String.format("%.2f",Math.round(stats.get("standardDeviation")*100)/100.0));
 			model.addAttribute("eqPrice",Math.round(stats.get("eqPrice")));
 			model.addAttribute("eqQuantity", Math.round(stats.get("eqQuantity")));
+			int realBenefits = 0;
+			for(Contract contract : kms.getContracts()){
+				realBenefits += contract.getBuyer().getValue() - contract.getSeller().getValue();
+			}
+			model.addAttribute("realBenefits", realBenefits);
+			model.addAttribute("hypBenefits", kms.getState().getHypBenefits());
 			
 			
 			return "evaluate";

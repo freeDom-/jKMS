@@ -216,6 +216,27 @@ public class Evaluation extends State{
 		return winner;
 	}
 	
+	public int getHypBenefits()	{
+		int hypBenefit = 0, help = 0;
+		int[] buyerArray = new int[kms.getPlayerCount()/2];
+		for(int a : kms.getbDistribution().keySet())	{
+			for(int i = 1; i <= kms.getbDistribution().get(a).getAbsolute(); help++, i++)	{
+				buyerArray[help] = a;
+			}
+		}
+		int[] sellerArray = new int[kms.getPlayerCount()/2];
+		help = 0;
+		for(int a : kms.getsDistribution().keySet())	{
+			for(int i = 1; i <= kms.getsDistribution().get(a).getAbsolute(); help++, i++)	{
+				sellerArray[help] = a;
+			}
+		}
+		for(int i = 0; i < buyerArray.length && buyerArray[buyerArray.length - 1 - i] > sellerArray[i]; i++)	{
+			hypBenefit += buyerArray[buyerArray.length - 1 - i] - sellerArray[i];
+		}
+		return hypBenefit;
+	}
+	
 	@Override
 	public int buyerProfit(Contract con){ 
 		int wtp = con.getBuyer().getValue();
