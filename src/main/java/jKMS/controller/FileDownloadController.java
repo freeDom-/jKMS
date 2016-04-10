@@ -111,7 +111,7 @@ public class FileDownloadController extends AbstractServerController {
      */
     @RequestMapping(value = "/pdfExport",
     				method = RequestMethod.POST)
-    public void exportPDF(@RequestParam("image") MultipartFile image) throws IllegalStateException, NoIntersectionException, CreateFolderFailedException	{
+    public void exportPDF(@RequestParam("image") MultipartFile image, @RequestParam("se") boolean se) throws IllegalStateException, NoIntersectionException, CreateFolderFailedException	{
     	byte[] imageBytes = null;
 
     	if(!image.isEmpty()){
@@ -147,19 +147,21 @@ public class FileDownloadController extends AbstractServerController {
     	try {
     		// Call Handwaving-Method twice to write into both streams [so glad it works...]
 			PdfWriter.getInstance(document, outstream);
-			if(ControllerHelper.checkFolders())	{
+			if(ControllerHelper.checkFolders() && se)	{
 				fos = new FileOutputStream(path);
 				PdfWriter.getInstance(document, fos);
 			}
 			document.open();
 			document = pdf.createExportPdf(document, pdfImage, stats);
 			document.close();
-			// Check if it was really saved
-			File file = new File(path);
-			if(file.exists())
-				LogicHelper.print("Saved the Export-PDF in: " + path);
-			else 
-				LogicHelper.print("Saving Export-PDF failed.", 2);
+			if(se)	{
+				// Check if it was really saved
+				File file = new File(path);
+				if(file.exists())
+					LogicHelper.print("Saved the Export-PDF in: " + path);
+				else 
+					LogicHelper.print("Saving Export-PDF failed.", 2);
+			}
 		} catch (FileNotFoundException | DocumentException e1) {
 			e1.printStackTrace();
 			throw new RuntimeException(LogicHelper.getLocalizedMessage("error.PDF.export"));

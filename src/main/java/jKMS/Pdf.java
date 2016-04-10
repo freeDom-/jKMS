@@ -384,6 +384,9 @@ public class Pdf{
 		String standDev = LogicHelper.getLocalizedMessage("evaluate.standardDeviation") + ": ";
 		String eqPrice = LogicHelper.getLocalizedMessage("evaluate.eqPrice") + ": ";
 		String eqQuantity = LogicHelper.getLocalizedMessage("evaluate.eqQuantity") + ": ";
+		// We'll only need this if customer wants to have benefits on PDF
+//		String realBen = LogicHelper.getLocalizedMessage("evaluate.realBenefits") + ": ";
+//		String hypBen = LogicHelper.getLocalizedMessage("evaluate.hypBenefits") + ": ";
 		
     	//insert stats
 		Paragraph head = new Paragraph(headline, titleFont);

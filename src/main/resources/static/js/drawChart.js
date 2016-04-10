@@ -31,7 +31,7 @@ function drawPlayChart(data)	{
 
 /**
  * @param data
- * @param type	Set Chart type: 0 - play, 1 - Evaluation 3 - Evaluation with Export
+ * @param type	Set Chart type: 0 - play, 1 - Evaluation, 2 - Evaluation with "silent" PDF export, 3 - Evaluation with download
  */
 function drawChart(data, type, contracts, distributions, hypBenefits)	{
 	//Daten verarbeiten und darstellen
@@ -96,18 +96,18 @@ function drawChart(data, type, contracts, distributions, hypBenefits)	{
 	//draw the chart
 	var plot = $.plot($("#placeholder"), chartData , options);
 	
-	if(type == 3)	{
+	if(type >= 2)	{
 		//prepare export of the image of the chart
 		var header = $("meta[name='_csrf_header']").attr("content");
 		var token = $("meta[name='_csrf']").attr("content");
 		var myCanvas = plot.getCanvas();
 		console.log(myCanvas);
 		var formData = new FormData();
-		
 		myCanvas.toBlob(
 			function(image){
 	
 				formData.append("image",image,"image.png");
+				formData.append("se", (type == 2));
 				
 				//send image to logic/java
 				$.ajax({
@@ -120,7 +120,7 @@ function drawChart(data, type, contracts, distributions, hypBenefits)	{
 					processData: false,
 					contentType: false,
 					mimeType: "multipart/form-data",
-					success:function(response){console.log(response)},
+					success:function(response){console.log(response); if(type == 3) window.location.href='pdfDownload.html';},
 					error: function(e){console.log(e);}			
 				});
 			},
@@ -144,7 +144,7 @@ function drawEvaluation(contracts, distributions, hypBenefits){
 		$.ajax({
 			type: "Get",
 			url: "getEvaluation.html",
-			success: function(response) {chartContent = response; drawChart(response, 3, contracts, distributions, hypBenefits);},
+			success: function(response) {chartContent = response; drawChart(response, 2, contracts, distributions, hypBenefits);},
 			error: function(e){alert('Error' + e);}
 		});
 	} else 
