@@ -385,8 +385,8 @@ public class Pdf{
 		String eqPrice = LogicHelper.getLocalizedMessage("evaluate.eqPrice") + ": ";
 		String eqQuantity = LogicHelper.getLocalizedMessage("evaluate.eqQuantity") + ": ";
 		// We'll only need this if customer wants to have benefits on PDF
-//		String realBen = LogicHelper.getLocalizedMessage("evaluate.realBenefits") + ": ";
-//		String hypBen = LogicHelper.getLocalizedMessage("evaluate.hypBenefits") + ": ";
+		String realBen = LogicHelper.getLocalizedMessage("evaluate.realBenefits") + ": ";
+		String hypBen = LogicHelper.getLocalizedMessage("evaluate.hypBenefits") + ": ";
 		
     	//insert stats
 		Paragraph head = new Paragraph(headline, titleFont);
@@ -408,14 +408,20 @@ public class Pdf{
     	cell21.setBorder(Rectangle.NO_BORDER);
     	PdfPCell cell31 = new PdfPCell(new Paragraph(max + Math.round(stats.get("maximum")) + "€",valueFont));
     	cell31.setBorder(Rectangle.NO_BORDER);
+    	
     	PdfPCell cell12 = new PdfPCell(new Paragraph(standDev + deviationValue ,valueFont));
     	cell12.setBorder(Rectangle.NO_BORDER);
-    	PdfPCell cell22 = new PdfPCell(new Paragraph(size + Math.round(stats.get("contractsSize")),valueFont));
+    	PdfPCell cell22 = new PdfPCell(new Paragraph(eqPrice + Math.round(stats.get("eqPrice")) + "€",valueFont));
     	cell22.setBorder(Rectangle.NO_BORDER);
-    	PdfPCell cell13 = new PdfPCell(new Paragraph(eqPrice + Math.round(stats.get("eqPrice")) + "€",valueFont));
+    	PdfPCell cell32 = new PdfPCell(new Paragraph(eqQuantity + Math.round(stats.get("eqQuantity")),valueFont));
+    	cell32.setBorder(Rectangle.NO_BORDER);
+    	
+    	PdfPCell cell13 = new PdfPCell(new Paragraph(size + Math.round(stats.get("contractsSize")),valueFont));
     	cell13.setBorder(Rectangle.NO_BORDER);
-    	PdfPCell cell23 = new PdfPCell(new Paragraph(eqQuantity + Math.round(stats.get("eqQuantity")),valueFont));
+    	PdfPCell cell23 = new PdfPCell(new Paragraph(hypBen + Math.round(stats.get("hypBen")),valueFont));
     	cell23.setBorder(Rectangle.NO_BORDER);
+    	PdfPCell cell33 = new PdfPCell(new Paragraph(realBen + Math.round(stats.get("realBen")),valueFont));
+    	cell33.setBorder(Rectangle.NO_BORDER);
     	
     	//dummy cell to complete the the third row
     	PdfPCell cell3 = new PdfPCell();
@@ -429,8 +435,8 @@ public class Pdf{
     	table.addCell(cell22);
     	table.addCell(cell23);
     	table.addCell(cell31);
-    	table.addCell(cell3);
-    	table.addCell(cell3);
+    	table.addCell(cell32);
+    	table.addCell(cell33);
     	
     	doc.add(table);
     	
