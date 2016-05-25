@@ -448,6 +448,18 @@ public class ControllerHelper extends AbstractController {
 		return str;		
 	}
 	
+	public static String getBenefits(Set<Contract> contracts)	{
+		if(contracts.isEmpty()) return "[]";
+		String str = "[";
+		int i = 0;
+		for(Contract contract : contracts)	{
+			str = str.concat("[" + i + "," + (contract.getBuyer().getValue() - contract.getSeller().getValue()) + "],");
+			i++;
+		}
+		str = str.substring(0, str.length()-1).concat("]");
+		return str;
+	}
+	
 	/**
 	 * Gets a map of distribution and converts it to a string for the javascript flot library
 	 * 

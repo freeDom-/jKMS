@@ -387,6 +387,7 @@ public class Pdf{
 		// We'll only need this if customer wants to have benefits on PDF
 		String realBen = LogicHelper.getLocalizedMessage("evaluate.realBenefits") + ": ";
 		String hypBen = LogicHelper.getLocalizedMessage("evaluate.hypBenefits") + ": ";
+		String currency = LogicHelper.getLocalizedMessage("prepare.currency");
 		
     	//insert stats
 		Paragraph head = new Paragraph(headline, titleFont);
@@ -404,23 +405,23 @@ public class Pdf{
     	
     	PdfPCell cell11 = new PdfPCell(new Paragraph(average + averageValue ,valueFont));
     	cell11.setBorder(Rectangle.NO_BORDER);
-    	PdfPCell cell21 = new PdfPCell(new Paragraph(min + Math.round(stats.get("minimum")) + "€",valueFont));
+    	PdfPCell cell21 = new PdfPCell(new Paragraph(min + Math.round(stats.get("minimum")) + currency,valueFont));
     	cell21.setBorder(Rectangle.NO_BORDER);
-    	PdfPCell cell31 = new PdfPCell(new Paragraph(max + Math.round(stats.get("maximum")) + "€",valueFont));
+    	PdfPCell cell31 = new PdfPCell(new Paragraph(max + Math.round(stats.get("maximum")) + currency,valueFont));
     	cell31.setBorder(Rectangle.NO_BORDER);
     	
     	PdfPCell cell12 = new PdfPCell(new Paragraph(standDev + deviationValue ,valueFont));
     	cell12.setBorder(Rectangle.NO_BORDER);
-    	PdfPCell cell22 = new PdfPCell(new Paragraph(eqPrice + Math.round(stats.get("eqPrice")) + "€",valueFont));
+    	PdfPCell cell22 = new PdfPCell(new Paragraph(eqPrice + Math.round(stats.get("eqPrice")) + currency,valueFont));
     	cell22.setBorder(Rectangle.NO_BORDER);
     	PdfPCell cell32 = new PdfPCell(new Paragraph(eqQuantity + Math.round(stats.get("eqQuantity")),valueFont));
     	cell32.setBorder(Rectangle.NO_BORDER);
     	
     	PdfPCell cell13 = new PdfPCell(new Paragraph(size + Math.round(stats.get("contractsSize")),valueFont));
     	cell13.setBorder(Rectangle.NO_BORDER);
-    	PdfPCell cell23 = new PdfPCell(new Paragraph(hypBen + Math.round(stats.get("hypBen")),valueFont));
+    	PdfPCell cell23 = new PdfPCell(new Paragraph(hypBen + Math.round(stats.get("hypBen")) + currency,valueFont));
     	cell23.setBorder(Rectangle.NO_BORDER);
-    	PdfPCell cell33 = new PdfPCell(new Paragraph(realBen + Math.round(stats.get("realBen")),valueFont));
+    	PdfPCell cell33 = new PdfPCell(new Paragraph(realBen + Math.round(stats.get("realBen")) + currency,valueFont));
     	cell33.setBorder(Rectangle.NO_BORDER);
     	
     	//dummy cell to complete the the third row

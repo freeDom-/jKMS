@@ -73,6 +73,10 @@ public abstract class State {
 	public int getHypBenefits() throws IllegalStateException	{
 		throw new IllegalStateException("It seems you did not follow the workflow correctly. Please try again from the beginning!");
 	}
+	
+	public int getRealBenefits() throws IllegalStateException	{
+		throw new IllegalStateException("It seems you did not follow the workflow correctly. Please try again from the beginning!");
+	}
 
 	public int buyerProfit(Contract contract) throws IllegalStateException	{
 		throw new IllegalStateException("It seems you did not follow the workflow correctly. Please try again from the beginning!");

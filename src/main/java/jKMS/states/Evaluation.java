@@ -40,7 +40,8 @@ public class Evaluation extends State{
 		
 		Iterator<Contract> i = contracts.iterator();
 		while(i.hasNext()){
-			tempPrice = i.next().getPrice();
+			Contract contract = i.next();
+			tempPrice = contract.getPrice();
 			
 			//maximum
 			if(tempPrice > max){
@@ -55,6 +56,8 @@ public class Evaluation extends State{
 		statistics.put("maximum", max);
 		statistics.put("averagePrice",averagePrice);
 		statistics.put("contractsSize", (float) contracts.size());
+		statistics.put("realBen", (float) kms.getState().getRealBenefits());
+		statistics.put("hypBen", (float) kms.getState().getHypBenefits());
 		
 		float min = max;
 		float sumOfSquares = 0;
@@ -216,6 +219,7 @@ public class Evaluation extends State{
 		return winner;
 	}
 	
+	@Override
 	public int getHypBenefits()	{
 		int hypBenefit = 0, help = 0;
 		int[] buyerArray = new int[kms.getPlayerCount()/2];
@@ -235,6 +239,15 @@ public class Evaluation extends State{
 			hypBenefit += buyerArray[buyerArray.length - 1 - i] - sellerArray[i];
 		}
 		return hypBenefit;
+	}
+	
+	@Override
+	public int getRealBenefits()	{
+		int realBenefits = 0;
+		for(Contract contract : kms.getContracts()){
+			realBenefits += contract.getBuyer().getValue() - contract.getSeller().getValue();
+		}
+		return realBenefits;
 	}
 	
 	@Override

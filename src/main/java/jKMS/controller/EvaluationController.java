@@ -69,8 +69,10 @@ public class EvaluationController extends AbstractServerController {
 		//min and max values for the chart
 		int[] minMax = ControllerHelper.getMinMax(contracts, sDistribution, bDistribution);
 		
+		String benefits = ControllerHelper.getBenefits(kms.getContracts());
+		
 		//concatenate return string
-		String str = playData.concat(";" + minMax[0] + ";" + minMax[1] + ";" + expectedSupply + ";" + expectedDemand + ";" + posRenten + ";" + negRenten);
+		String str = playData.concat(";" + minMax[0] + ";" + minMax[1] + ";" + expectedSupply + ";" + expectedDemand + ";" + posRenten + ";" + negRenten + ";" + benefits);
 		
 		return str;
 		
@@ -154,11 +156,7 @@ public class EvaluationController extends AbstractServerController {
 			model.addAttribute("standardDeviation", String.format("%.2f",Math.round(stats.get("standardDeviation")*100)/100.0));
 			model.addAttribute("eqPrice",Math.round(stats.get("eqPrice")));
 			model.addAttribute("eqQuantity", Math.round(stats.get("eqQuantity")));
-			int realBenefits = 0;
-			for(Contract contract : kms.getContracts()){
-				realBenefits += contract.getBuyer().getValue() - contract.getSeller().getValue();
-			}
-			model.addAttribute("realBenefits", realBenefits);
+			model.addAttribute("realBenefits", kms.getState().getRealBenefits());
 			model.addAttribute("hypBenefits", kms.getState().getHypBenefits());
 			
 			

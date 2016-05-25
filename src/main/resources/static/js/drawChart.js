@@ -1,4 +1,4 @@
-var contractsStat = false, distributionsStat = false, hypBenefitsStat = false;
+var contractsStat = false, distributionsStat = false, hypBenefitsStat = false, benefitGraph = false;
 var chartContent = null;
 
 function setButtonState(button, state)	{
@@ -21,11 +21,14 @@ function setButtonState(button, state)	{
 	case "hypBenefit":
 		hypBenefitsStat = state;
 		break;
+	case "benefitGraph":
+		benefitGraph = state;
+		break;
 	}
 }
 
 function drawPlayChart(data)	{
-	drawChart(data, 0, true, false, false);
+	drawChart(data, 0, true, false, false, false);
 }
 
 
@@ -33,12 +36,13 @@ function drawPlayChart(data)	{
  * @param data
  * @param type	Set Chart type: 0 - play, 1 - Evaluation, 2 - Evaluation with "silent" PDF export, 3 - Evaluation with download
  */
-function drawChart(data, type, contracts, distributions, hypBenefits)	{
+function drawChart(data, type, contracts, distributions, hypBenefits, benefitGraph)	{
 	//Daten verarbeiten und darstellen
 	dataArray = data.split(";");
 	// 0 - current play data, 1 - Minimum, 2 - Maximum, 
 	// 3 - sellerDistribution, 4 - buyerDistribution, 
 	// 5 - realPosBenefits, 6 - realNegBenefits
+	// 7 - benefitData
 	var chartData = [];
 	yMin = dataArray[1];
 	yMax = dataArray[2];
@@ -50,6 +54,7 @@ function drawChart(data, type, contracts, distributions, hypBenefits)	{
 		setButtonState('contract', contracts);
 		setButtonState('distribution', distributions);
 		setButtonState('hypBenefit', hypBenefits);
+		setButtonState('benefitGraph', benefitGraph);
 		if(distributions)	{
 			sellerData = JSON.parse(dataArray[3]);
 			buyerData = JSON.parse(dataArray[4]);
@@ -60,6 +65,10 @@ function drawChart(data, type, contracts, distributions, hypBenefits)	{
 			negBenefits = JSON.parse(dataArray[6]);
 			chartData = chartData.concat(	{lines:{steps:true},data:posBenefits,id:"pos",fillBelowTo:"neg",color:"#6ECD00"},
 											{lines:{steps:true},data:negBenefits,id:"neg",fillBelowTo:"pos",color:"#6ECD00"});
+		}
+		if(benefitGraph)	{
+			benefits = JSON.parse(dataArray[7]);
+			chartData = chartData.concat(	{bars:{show:true,barWidth:0.5},data:benefits,color:"#e09200"});
 		}
 	}
 	
@@ -139,23 +148,25 @@ function getData(){
 	
 }
 
-function drawEvaluation(contracts, distributions, hypBenefits){
+function drawEvaluation(contracts, distributions, hypBenefits, benefitGraph){
 	if(chartContent == null)	{
 		$.ajax({
 			type: "Get",
 			url: "getEvaluation.html",
-			success: function(response) {chartContent = response; drawChart(response, 2, contracts, distributions, hypBenefits);},
+			success: function(response) {chartContent = response; drawChart(response, 2, contracts, distributions, hypBenefits, benefitGraph);},
 			error: function(e){alert('Error' + e);}
 		});
 	} else 
-		drawChart(chartContent, 1, contracts, distributions, hypBenefits)
+		drawChart(chartContent, 1, contracts, distributions, hypBenefits, benefitGraph);
 }
 
 function toggleEvaluation(which)	{
 	if(which == "contracts")
-		drawEvaluation(!contractsStat, distributionsStat, hypBenefitsStat);
+		drawEvaluation(!contractsStat, distributionsStat, hypBenefitsStat, benefitGraph);
 	else if(which == "distributions")
-		drawEvaluation(contractsStat, !distributionsStat, hypBenefitsStat);
+		drawEvaluation(contractsStat, !distributionsStat, hypBenefitsStat, benefitGraph);
 	else if(which == "hypBenefits")
-		drawEvaluation(contractsStat, distributionsStat, !hypBenefitsStat);
+		drawEvaluation(contractsStat, distributionsStat, !hypBenefitsStat, benefitGraph);
+	else if(which == "benefitGraph")
+		drawEvaluation(contractsStat, distributionsStat, hypBenefitsStat, !benefitGraph);
 }
