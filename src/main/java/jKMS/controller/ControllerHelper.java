@@ -22,6 +22,8 @@ import java.net.SocketException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -33,6 +35,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.servlet.ServletRequest;
 
@@ -426,24 +429,45 @@ public class ControllerHelper extends AbstractController {
 	 * @param	type return positive or negative curve
 	 * @return 	string holding the contract information
 	 */
-	public static String intSetToString(Set<Integer> ints, Integer middle, String type){
-		if(ints.isEmpty()) return "[]";
-		
+	public static String distributionToFlot(Map<Integer, Amount> map, boolean buyer, int number){
+
 		String str = "[";
-		int i = 0, lastint = 0;
-		
-		for(Integer integer : ints){
-			if(type == "pos")
-				integer = middle + integer/2;
-			else
-				integer = middle - integer/2;
-			str = str.concat("[" + i + "," + integer + "],");
-			i++;
-			lastint = integer;
+		Set<Integer> newSet;
+		int a = 0;
+		if(buyer)	{
+			newSet = new TreeSet<>(Collections.reverseOrder());
+		}	else	{
+			newSet = new TreeSet<>();
 		}
-		str = str.concat("[" + i + "," + lastint + "],");
-		
+		newSet.addAll(map.keySet());
+
+		Iterator<Integer> it = newSet.iterator();
+		while(it.hasNext() && a < 120)	{ // TODO remove
+			int price = it.next();
+			for(int i = 0; i < map.get(price).getAbsolute(); i++)	{
+				if(a == 120) // TODO remove
+					break;
+				str = str.concat("[" + a + "," + price + "],");
+				a++;
+			}
+		}
 		str = str.substring(0, str.length()-1).concat("]");
+//		if(ints.isEmpty()) return "[]";
+//		
+//		int i = 0, lastint = 0;
+//		
+//		for(Integer integer : ints){
+//			if(type == "pos")
+//				integer = middle + integer/2;
+//			else
+//				integer = middle - integer/2;
+//			str = str.concat("[" + i + "," + integer + "],");
+//			i++;
+//			lastint = integer;
+//		}
+//		str = str.concat("[" + i + "," + lastint + "],");
+//		
+//		str = str.substring(0, str.length()-1).concat("]");
 		
 		return str;		
 	}

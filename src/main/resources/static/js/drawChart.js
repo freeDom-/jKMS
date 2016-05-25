@@ -63,8 +63,8 @@ function drawChart(data, type, contracts, distributions, hypBenefits, benefitGra
 		if(hypBenefits)	{
 			posBenefits = JSON.parse(dataArray[5]);
 			negBenefits = JSON.parse(dataArray[6]);
-			chartData = chartData.concat(	{lines:{steps:true},data:posBenefits,id:"pos",fillBelowTo:"neg",color:"#6ECD00"},
-											{lines:{steps:true},data:negBenefits,id:"neg",fillBelowTo:"pos",color:"#6ECD00"});
+			chartData = chartData.concat(	{lines:{show:false,steps:true},data:posBenefits,id:"pos",fillBelowTo:"neg",color:"#6ECD00"},
+											{lines:{show:false,steps:true},data:negBenefits,id:"neg",fillBelowTo:"pos",color:"#6ECD00"});
 		}
 		if(benefitGraph)	{
 			benefits = JSON.parse(dataArray[7]);

@@ -58,13 +58,8 @@ public class EvaluationController extends AbstractServerController {
 		String expectedDemand = ControllerHelper.mapToString(bDistribution.descendingMap());
 		
 		//String of renten
-		Set<Integer> renten = new TreeSet<Integer>(new ReverseIntegerComparator());
-		for(Contract contract : contracts){
-			renten.add(contract.getBuyer().getValue() - contract.getSeller().getValue());
-		}
-		Integer eqPrice = Math.round(kms.getState().getStatistics().get("eqPrice"));
-		String posRenten = ControllerHelper.intSetToString(renten, eqPrice, "pos");
-		String negRenten = ControllerHelper.intSetToString(renten, eqPrice, "neg");
+		String posRenten = ControllerHelper.distributionToFlot(kms.getsDistribution(), false, kms.getPlayerCount()/2);
+		String negRenten = ControllerHelper.distributionToFlot(kms.getbDistribution(), true, kms.getPlayerCount()/2);
 		
 		//min and max values for the chart
 		int[] minMax = ControllerHelper.getMinMax(contracts, sDistribution, bDistribution);
