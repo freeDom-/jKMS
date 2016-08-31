@@ -4,6 +4,8 @@ import jKMS.Amount;
 import jKMS.Contract;
 import jKMS.Csv;
 import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
+import jKMS.controller.ControllerHelper;
 import jKMS.exceptionHelper.NoContractsException;
 import jKMS.exceptionHelper.NoIntersectionException;
 
@@ -222,32 +224,35 @@ public class Evaluation extends State{
 	@Override
 	public int getHypBenefits()	{
 		int hypBenefit = 0, help = 0;
-		int[] buyerArray = new int[kms.getPlayerCount()/2];
+		int[] buyerArray = new int[kms.getConfiguration().getPlayerCount("b")];
 		for(int a : kms.getbDistribution().keySet())	{
 			for(int i = 1; i <= kms.getbDistribution().get(a).getAbsolute(); help++, i++)	{
 				buyerArray[help] = a;
 			}
 		}
-		int[] sellerArray = new int[kms.getPlayerCount()/2];
+		int[] sellerArray = new int[kms.getConfiguration().getPlayerCount("s")];
 		help = 0;
 		for(int a : kms.getsDistribution().keySet())	{
 			for(int i = 1; i <= kms.getsDistribution().get(a).getAbsolute(); help++, i++)	{
 				sellerArray[help] = a;
 			}
 		}
-		for(int i = 0; i < buyerArray.length && buyerArray[buyerArray.length - 1 - i] > sellerArray[i]; i++)	{
-			hypBenefit += buyerArray[buyerArray.length - 1 - i] - sellerArray[i];
+		try	{
+			for(int i = 0; i < buyerArray.length && buyerArray[buyerArray.length - 1 - i] > sellerArray[i]; i++)	{
+				hypBenefit += buyerArray[buyerArray.length - 1 - i] - sellerArray[i];
+			}
+		} catch(IndexOutOfBoundsException e)	{
+			if(kms.getPlayerCount() % 2 == 0)	{
+				// Error, IndexOutOfBounds can only happen if number of buyers and sellers is not equal (odd player count)
+				LogicHelper.print("Fehler in der Anwendung - hypothetische Renten konnten nicht berechnet werden.", 2); // TODO i18n
+			}
 		}
 		return hypBenefit;
 	}
 	
 	@Override
 	public int getRealBenefits()	{
-		int realBenefits = 0;
-		for(Contract contract : kms.getContracts()){
-			realBenefits += contract.getBuyer().getValue() - contract.getSeller().getValue();
-		}
-		return realBenefits;
+		return ControllerHelper.getRealBenefits(kms.getContracts());
 	}
 	
 	@Override

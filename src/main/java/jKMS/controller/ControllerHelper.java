@@ -423,35 +423,53 @@ public class ControllerHelper extends AbstractController {
 	
 	/**
 	 * Gets a set of integers and converts it to a string for the javascript flot library
-	 * 
+	 * TODO refresh
 	 * @param 	ints Set of integers
 	 * @param	middle equilibrium price for scaling
 	 * @param	type return positive or negative curve
 	 * @return 	string holding the contract information
 	 */
-	public static String distributionToFlot(Map<Integer, Amount> map, boolean buyer, int number){
+	public static String distributionToFlot(Map<Integer, Amount> bmap, Map<Integer, Amount> smap, Set<Contract> contracts){
 
-		String str = "[";
-		Set<Integer> newSet;
+		String bstr = "[";
+		String sstr = "[";
+		Set<Integer> newbSet;
+		Set<Integer> newsSet;
 		int a = 0;
-		if(buyer)	{
-			newSet = new TreeSet<>(Collections.reverseOrder());
-		}	else	{
-			newSet = new TreeSet<>();
-		}
-		newSet.addAll(map.keySet());
+		newbSet = new TreeSet<>(Collections.reverseOrder());
+		newsSet = new TreeSet<>();
+		newbSet.addAll(bmap.keySet());
+		newsSet.addAll(smap.keySet());
 
-		Iterator<Integer> it = newSet.iterator();
-		while(it.hasNext() && a < 120)	{ // TODO remove
-			int price = it.next();
-			for(int i = 0; i < map.get(price).getAbsolute(); i++)	{
-				if(a == 120) // TODO remove
-					break;
-				str = str.concat("[" + a + "," + price + "],");
-				a++;
+		Iterator<Integer> bit = newbSet.iterator();
+		Iterator<Integer> sit = newsSet.iterator();
+		int curRent = 0, b = 0, s = 0;
+		int bprice = bit.next();
+		int sprice = sit.next();
+		while(curRent < ControllerHelper.getRealBenefits(contracts))	{
+			if(b >= bmap.get(bprice).getAbsolute())	{
+				bprice = bit.next();
+				b = 0;
 			}
+			if(s >= smap.get(sprice).getAbsolute())	{
+				sprice = sit.next();
+				s = 0;
+			}
+			if(bprice - sprice < 0)
+				break;
+			curRent += bprice - sprice;
+			bstr = bstr.concat("[" + a + "," + bprice + "],");
+			sstr = sstr.concat("[" + a + "," + sprice + "],");
+			a++;
+			s++;
+			b++;
 		}
-		str = str.substring(0, str.length()-1).concat("]");
+		if(bstr.length() > 1)	{
+			bstr = bstr.substring(0, bstr.length()-1);
+			sstr = sstr.substring(0, sstr.length()-1);
+		}
+		bstr = bstr.concat("]");
+		sstr = sstr.concat("]");
 //		if(ints.isEmpty()) return "[]";
 //		
 //		int i = 0, lastint = 0;
@@ -469,13 +487,21 @@ public class ControllerHelper extends AbstractController {
 //		
 //		str = str.substring(0, str.length()-1).concat("]");
 		
-		return str;		
+		return bstr.concat(";" + sstr);		
+	}
+	
+	public static int getRealBenefits(Set<Contract> contracts)	{
+		int realBenefits = 0;
+		for(Contract contract : contracts){
+			realBenefits += contract.getBuyer().getValue() - contract.getSeller().getValue();
+		}
+		return realBenefits;
 	}
 	
 	public static String getBenefits(Set<Contract> contracts)	{
 		if(contracts.isEmpty()) return "[]";
 		String str = "[";
-		int i = 0;
+		int i = 1;
 		for(Contract contract : contracts)	{
 			str = str.concat("[" + i + "," + (contract.getBuyer().getValue() - contract.getSeller().getValue()) + "],");
 			i++;

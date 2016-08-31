@@ -58,8 +58,7 @@ public class EvaluationController extends AbstractServerController {
 		String expectedDemand = ControllerHelper.mapToString(bDistribution.descendingMap());
 		
 		//String of renten
-		String posRenten = ControllerHelper.distributionToFlot(kms.getsDistribution(), false, kms.getPlayerCount()/2);
-		String negRenten = ControllerHelper.distributionToFlot(kms.getbDistribution(), true, kms.getPlayerCount()/2);
+		String renten = ControllerHelper.distributionToFlot(kms.getbDistribution(), kms.getsDistribution(), kms.getContracts());
 		
 		//min and max values for the chart
 		int[] minMax = ControllerHelper.getMinMax(contracts, sDistribution, bDistribution);
@@ -67,7 +66,7 @@ public class EvaluationController extends AbstractServerController {
 		String benefits = ControllerHelper.getBenefits(kms.getContracts());
 		
 		//concatenate return string
-		String str = playData.concat(";" + minMax[0] + ";" + minMax[1] + ";" + expectedSupply + ";" + expectedDemand + ";" + posRenten + ";" + negRenten + ";" + benefits);
+		String str = playData.concat(";" + minMax[0] + ";" + minMax[1] + ";" + expectedSupply + ";" + expectedDemand + ";" + renten + ";" + benefits);
 		
 		return str;
 		

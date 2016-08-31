@@ -60,7 +60,7 @@ function drawChart(data, type, contracts, distributions, hypBenefits, benefitGra
 			buyerData = JSON.parse(dataArray[4]);
 			chartData = chartData.concat({lines:{steps:true},data:sellerData,color:"#1d3cec"},{lines:{steps:true},data:buyerData,color:"#cb4b4b"});
 		}
-		if(hypBenefits)	{
+		if(hypBenefits && dataArray[5].length > 0 && dataArray[6].length > 0)	{
 			posBenefits = JSON.parse(dataArray[5]);
 			negBenefits = JSON.parse(dataArray[6]);
 			chartData = chartData.concat(	{lines:{show:false,steps:true},data:posBenefits,id:"pos",fillBelowTo:"neg",color:"#6ECD00"},
@@ -68,7 +68,7 @@ function drawChart(data, type, contracts, distributions, hypBenefits, benefitGra
 		}
 		if(benefitGraph)	{
 			benefits = JSON.parse(dataArray[7]);
-			chartData = chartData.concat(	{bars:{show:true,barWidth:0.5},data:benefits,color:"#e09200"});
+			chartData = chartData.concat(	{bars:{align: "center",show:true,barWidth:0.2},data:benefits,color:"#e09200"});
 		}
 	}
 	

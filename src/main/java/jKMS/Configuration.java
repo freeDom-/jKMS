@@ -104,6 +104,28 @@ public class Configuration {
 			return this.bDistribution.size();
 		throw new IllegalArgumentException("Argument " + type + "is not allowed for getGroupCount!");
 	}
+	
+	/**
+	 * @returns the number of players of the given @param type.
+	 * 
+	 */
+	public int getPlayerCount(String type)	{
+		if(type.equals("s"))	{
+			int sum = 0;
+			for(Amount a : this.sDistribution.values())	{
+				sum += a.getAbsolute();
+			}
+			return sum;
+		}
+		if(type.equals("b"))	{
+			int sum = 0;
+			for(Amount a : this.bDistribution.values())	{
+				sum += a.getAbsolute();
+			}
+			return sum;
+		}
+		throw new IllegalArgumentException("Argument " + type + "is not allowed for getPlayerCount!");
+	}
 
 	public Map<Integer, Amount> getbDistribution() {
 		return bDistribution;
