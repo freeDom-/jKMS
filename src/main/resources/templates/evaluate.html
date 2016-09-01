@@ -15,11 +15,16 @@
 	<script src="/js/flot/jquery.flot.fillbelow.js" ></script>
 	<script src="/js/canvas-to-blob.min.js" ></script>
 	<script src="/js/jquery.flot.axislabels.js" ></script>
+	 <script src="/js/jquery-ui.min.js"></script>
 	<script th:inline="javascript">
     /*<![CDATA[*/
     	var xAxis = /*[[#{play.xAxis}]]*/;
     	var yAxis = /*[[#{play.yAxis}]]*/;
     /*]]>*/
+      $( function() {
+    	$( "#statsContainer" ).draggable();
+  	} );
+    
     </script>
 	
 </head>
@@ -31,21 +36,29 @@
  		<div th:text="#{noscript}"></div>
  	</noscript>
  		
-	<div id="statsContainer">
- 		<h4 th:text="#{evaluate.headline}"> </h4>
- 		<div id="statsData">
-	 		<div th:text="#{evaluate.average} + ': ' + ${average} + #{prepare.currency}" > </div>
-	 		<div th:text="#{evaluate.min} + ': ' + ${min} + #{prepare.currency}" > </div>
-	 		<div th:text="#{evaluate.max} + ': ' + ${max} + #{prepare.currency}"> </div>
-	 		<div th:text="#{evaluate.standardDeviation} + ': ' + ${standardDeviation}"> </div>
-	 		<div th:text="#{evaluate.size} + ': ' + ${size}" > </div>
-	 		<div th:text="#{evaluate.eqPrice} + ': ' + ${eqPrice}" > </div>
-	 		<div th:text="#{evaluate.eqQuantity} + ': ' + ${eqQuantity}" > </div>
-	 		<div th:text="#{evaluate.realBenefits} + ': ' + ${realBenefits} + #{prepare.currency}" > </div>
-	 		<div th:text="#{evaluate.hypBenefits} + ': ' + ${hypBenefits} + #{prepare.currency}" > </div>
- 		</div>
- 		<div id="dropdown"><img th:src="@{/images/dropdown_arrow.png}" alt="aufklappen"/></div>
- 	</div>
+ 	<div id="statsContainer">
+		<div id="gameStatsContainer">
+	 		<h4 th:text="#{evaluate.headline}"> </h4>
+	 		<div id="gameStatsData" class="statsData">
+		 		<div th:text="#{evaluate.average} + ': ' + ${average} + #{prepare.currency}" > </div>
+		 		<div th:text="#{evaluate.min} + ': ' + ${min} + #{prepare.currency}" > </div>
+		 		<div th:text="#{evaluate.max} + ': ' + ${max} + #{prepare.currency}"> </div>
+		 		<div th:text="#{evaluate.standardDeviation} + ': ' + ${standardDeviation}"> </div>
+		 		<div th:text="#{evaluate.size} + ': ' + ${size}" > </div>
+		 		<div th:text="#{evaluate.eqPrice} + ': ' + ${eqPrice}" > </div>
+		 		<div th:text="#{evaluate.eqQuantity} + ': ' + ${eqQuantity}" > </div>
+	 		</div>
+	 		<div id="gameDropdown"><img th:src="@{/images/dropdown_arrow.png}" alt="aufklappen"/></div>
+	 	</div>
+	 	<div id="benContainer">
+	 		<h4 th:text="#{evaluate.benefits}"> </h4>
+	 		<div id="benStatsData" class="statsData">
+		 		<div th:text="#{evaluate.realBenefits} + ': ' + ${realBenefits} + #{prepare.currency}" > </div>
+		 		<div th:text="#{evaluate.hypBenefits} + ': ' + ${hypBenefits} + #{prepare.currency}" > </div>
+	 		</div>
+	 		<div id="benDropdown"><img th:src="@{/images/dropdown_arrow.png}" alt="aufklappen"/></div>
+	 	</div>
+	</div>
 	
 	<div id="chartWrapper">
 		<!-- Überschrift nicht richtig formatiert 
@@ -74,8 +87,12 @@
 			$(document).ready(function(){
 					drawEvaluation(true, false, false);
 					
-					$("#dropdown").click(function(){
-						$("#statsData").slideToggle();
+					$("#gameDropdown").click(function(){
+						$("#gameStatsData").slideToggle();
+						$(this).toggleClass("rotate");
+					});
+					$("#benDropdown").click(function(){
+						$("#benStatsData").slideToggle();
 						$(this).toggleClass("rotate");
 					});
 			});

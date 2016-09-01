@@ -435,7 +435,6 @@ public class ControllerHelper extends AbstractController {
 		String sstr = "[";
 		Set<Integer> newbSet;
 		Set<Integer> newsSet;
-		int a = 0;
 		newbSet = new TreeSet<>(Collections.reverseOrder());
 		newsSet = new TreeSet<>();
 		newbSet.addAll(bmap.keySet());
@@ -443,10 +442,12 @@ public class ControllerHelper extends AbstractController {
 
 		Iterator<Integer> bit = newbSet.iterator();
 		Iterator<Integer> sit = newsSet.iterator();
-		int curRent = 0, b = 0, s = 0;
+		double curRent = 0, b = 0, s = 0, a = 0;
 		int bprice = bit.next();
 		int sprice = sit.next();
-		while(curRent < ControllerHelper.getRealBenefits(contracts))	{
+		double p = 0.01;
+//		while(curRent < ControllerHelper.getRealBenefits(contracts))	{
+		while(true)	{
 			if(b >= bmap.get(bprice).getAbsolute())	{
 				bprice = bit.next();
 				b = 0;
@@ -457,12 +458,15 @@ public class ControllerHelper extends AbstractController {
 			}
 			if(bprice - sprice < 0)
 				break;
-			curRent += bprice - sprice;
+			curRent += (bprice - sprice)*p;
 			bstr = bstr.concat("[" + a + "," + bprice + "],");
 			sstr = sstr.concat("[" + a + "," + sprice + "],");
-			a++;
-			s++;
-			b++;
+			a += p;
+			s += p;
+			b+= p;
+//			a++;
+//			s++;
+//			b++;
 		}
 		if(bstr.length() > 1)	{
 			bstr = bstr.substring(0, bstr.length()-1);

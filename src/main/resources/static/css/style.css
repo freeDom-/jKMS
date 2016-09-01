@@ -201,6 +201,16 @@ select option	{
 	background:			rgba(50,50,50,1);	
 }
 
+.statsData				{
+	display:			none;
+}
+
+.rotate		{
+	-ms-transform: 		rotate(180deg); /* IE 9 */
+    -webkit-transform: 	rotate(180deg); /* Chrome, Safari, Opera */
+    transform:			rotate(180deg);
+}
+
 /*
 ###################### input types ####################
 */
@@ -480,16 +490,6 @@ form#login	{
 	padding:			1%;
 	background:			rgba(110,205,0,0.7);
 	z-index:			1;
-}
-
-#statsData				{
-	display:			none;
-}
-
-#dropdown.rotate		{
-	-ms-transform: 		rotate(180deg); /* IE 9 */
-    -webkit-transform: 	rotate(180deg); /* Chrome, Safari, Opera */
-    transform:			rotate(180deg);
 }
 
 #card			{
