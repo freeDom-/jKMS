@@ -13,6 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -64,7 +68,17 @@ public class ServerController extends AbstractServerController	{
 		
 		model.addAttribute("users", ControllerHelper.getUsers());
 		model.addAttribute("languages", ControllerHelper.getLanguages());
+		model.addAttribute("currCurrency", kms.getCurrency());
+		model.addAttribute("currencies", kms.getCurrencys());
 		return "settings";
+	}
+	
+	@RequestMapping(value = "/currencySettings", method = RequestMethod.POST)
+	public String processSettings(Model model, RedirectAttributes ra,
+			@RequestParam(value = "currencies") int currency)	{
+		kms.setCurrency(currency);
+		ra.addFlashAttribute("success", 42);
+		return "redirect:/settings";
 	}
 	
 	/**

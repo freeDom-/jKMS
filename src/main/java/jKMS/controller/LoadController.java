@@ -1,5 +1,6 @@
 package jKMS.controller;
 
+import jKMS.Kartoffelmarktspiel;
 import jKMS.LogicHelper;
 import jKMS.exceptionHelper.EmptyFileException;
 import jKMS.exceptionHelper.FalseLoadFileException;
@@ -66,6 +67,8 @@ public class LoadController extends AbstractServerController {
 			// JavaScript - For Quick-checking the given IDs
 			model.addAttribute("firstID", kms.getConfiguration().getFirstID());
 			
+			model.addAttribute("currency", Kartoffelmarktspiel.getCurrency());
+			
 			return "load1";
 		}	else	{
 			return "redirect:/reset";
@@ -130,6 +133,7 @@ public class LoadController extends AbstractServerController {
 			// JavaScript - For Quick-checking the given IDs
 			model.addAttribute("firstID", kms.getConfiguration().getFirstID());
 			model.addAttribute("lastID", kms.getLastId());
+			model.addAttribute("currency", Kartoffelmarktspiel.getCurrency());
 			
 			return "load2";
 		}	else	{

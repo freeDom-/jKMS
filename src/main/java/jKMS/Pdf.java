@@ -259,7 +259,7 @@ public class Pdf{
         	content.add(cTitle);
         	content.add(Chunk.NEWLINE);
         	content.add(Chunk.NEWLINE);
-        	Chunk cValue = new Chunk(this.value + card.getValue() +"€",valueFont);
+        	Chunk cValue = new Chunk(this.value + card.getValue() + Kartoffelmarktspiel.getCurrency(),valueFont);
         	content.add(cValue);
         	content.add(Chunk.NEWLINE);
         	Chunk cID = new Chunk(this.id + card.getId(),valueFont);
@@ -387,7 +387,7 @@ public class Pdf{
 		// We'll only need this if customer wants to have benefits on PDF
 		String realBen = LogicHelper.getLocalizedMessage("evaluate.realBenefits") + ": ";
 		String hypBen = LogicHelper.getLocalizedMessage("evaluate.hypBenefits") + ": ";
-		String currency = LogicHelper.getLocalizedMessage("prepare.currency");
+		String currency = Kartoffelmarktspiel.getCurrency();
 		
     	//insert stats
 		Paragraph head = new Paragraph(headline, titleFont);
@@ -398,7 +398,7 @@ public class Pdf{
     	
 		doc.add(head);
 		
-		String averageValue = String.format("%.2f", Math.round(stats.get("averagePrice")*100)/100.0) + "€";
+		String averageValue = String.format("%.2f", Math.round(stats.get("averagePrice")*100)/100.0) + currency;
 		String deviationValue = String.format("%.2f", Math.round(stats.get("standardDeviation")*100)/100.0);
     	
     	PdfPTable table = new PdfPTable(3);

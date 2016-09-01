@@ -40,9 +40,9 @@
 		<div id="gameStatsContainer">
 	 		<h4 th:text="#{evaluate.headline}"> </h4>
 	 		<div id="gameStatsData" class="statsData">
-		 		<div th:text="#{evaluate.average} + ': ' + ${average} + #{prepare.currency}" > </div>
-		 		<div th:text="#{evaluate.min} + ': ' + ${min} + #{prepare.currency}" > </div>
-		 		<div th:text="#{evaluate.max} + ': ' + ${max} + #{prepare.currency}"> </div>
+		 		<div th:text="#{evaluate.average} + ': ' + ${average} + ${currency}" > </div>
+		 		<div th:text="#{evaluate.min} + ': ' + ${min} + ${currency}" > </div>
+		 		<div th:text="#{evaluate.max} + ': ' + ${max} + ${currency}"> </div>
 		 		<div th:text="#{evaluate.standardDeviation} + ': ' + ${standardDeviation}"> </div>
 		 		<div th:text="#{evaluate.size} + ': ' + ${size}" > </div>
 		 		<div th:text="#{evaluate.eqPrice} + ': ' + ${eqPrice}" > </div>
@@ -53,17 +53,14 @@
 	 	<div id="benContainer">
 	 		<h4 th:text="#{evaluate.benefits}"> </h4>
 	 		<div id="benStatsData" class="statsData">
-		 		<div th:text="#{evaluate.realBenefits} + ': ' + ${realBenefits} + #{prepare.currency}" > </div>
-		 		<div th:text="#{evaluate.hypBenefits} + ': ' + ${hypBenefits} + #{prepare.currency}" > </div>
+		 		<div th:text="#{evaluate.realBenefits} + ': ' + ${realBenefits} + ${currency}" > </div>
+		 		<div th:text="#{evaluate.hypBenefits} + ': ' + ${hypBenefits} + ${currency}" > </div>
 	 		</div>
 	 		<div id="benDropdown"><img th:src="@{/images/dropdown_arrow.png}" alt="aufklappen"/></div>
 	 	</div>
 	</div>
 	
 	<div id="chartWrapper">
-		<!-- Überschrift nicht richtig formatiert 
-		<div th:replace="resources :: heading (evaluate)">
- 		</div>-->
 		<div id="placeholder" >
 		</div>
 	<div id="footTools">

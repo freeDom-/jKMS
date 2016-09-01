@@ -9,9 +9,12 @@ import jKMS.states.Preparation;
 import jKMS.states.State;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,18 @@ public class Kartoffelmarktspiel {
 	private Kartoffelmarktspiel instance;
 	private Calendar begin;
 	private Calendar end;
-    
+	private static Currencys currency;
+    private enum Currencys {
+    	EURO("€"), DOLLAR("$"), POUNDS("£");
+    	private final String string;
+    	Currencys(String string)	{
+    		this.string = string;
+    	}
+    	public String getString()	{
+    		return this.string;
+    	}
+    }
+	
 	// DEFAULT CONSTRUCTOR
 	private Kartoffelmarktspiel() {
 		// load default settings from file
@@ -36,6 +50,7 @@ public class Kartoffelmarktspiel {
 		contracts = new LinkedHashSet<Contract>();
 		cards = new LinkedHashSet<Card>();
 		prepare();
+		currency = Currencys.EURO;
 	}
 
 	// STATE SETTERS
@@ -135,6 +150,31 @@ public class Kartoffelmarktspiel {
 	
 	public Package getPackage(char pack) {
 		return configuration.getPackage(pack);
+	}
+	
+	public static String getCurrency()	{
+		return currency.getString();
+	}
+	
+	public Map<Integer, String> getCurrencys()	{
+
+		Map<Integer, String> map = new TreeMap<>();
+		map.put(this.currency.ordinal(), this.currency.getString());
+		for(Currencys currency : Currencys.values())	{
+			if(currency.getString() != this.currency.getString())	{
+				map.put(currency.ordinal(), currency.getString());
+			}
+		}
+			
+		return map;
+	}
+	
+	public void setCurrency(int currency)	{
+		for(Currencys curr : Currencys.values())	{
+			if(currency == curr.ordinal())	{
+				this.currency = curr;
+			}
+		}
 	}
 	
 }

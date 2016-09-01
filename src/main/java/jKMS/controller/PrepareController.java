@@ -1,6 +1,7 @@
 package jKMS.controller;
 
 import jKMS.Amount;
+import jKMS.Kartoffelmarktspiel;
 import jKMS.LogicHelper;
 import jKMS.exceptionHelper.CreateFolderFailedException;
 import jKMS.exceptionHelper.EmptyFileException;
@@ -164,6 +165,7 @@ public class PrepareController extends AbstractServerController {
 			model.addAttribute("firstID", kms.getConfiguration().getFirstID());
 			model.addAttribute("lastID", kms.getLastId());
 			model.addAttribute("falseContentType", LogicHelper.getLocalizedMessage("error.load.falseContentType"));
+			model.addAttribute("currency", Kartoffelmarktspiel.getCurrency());
 	
 			return "prepare2";
 		}	else	{

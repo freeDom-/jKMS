@@ -339,9 +339,9 @@ public class Preparation extends State	{
 		
 		Amount registered = distrib.get(price);
 		if(isBuyer)	{
-			LogicHelper.print("Registered Group:  Buyer | " + price + "€ | " + registered.getRelative() + "% | " + registered.getAbsolute());
+			LogicHelper.print("Registered Group:  Buyer | " + price + Kartoffelmarktspiel.getCurrency() + " | " + registered.getRelative() + "% | " + registered.getAbsolute());
 		}	else	{
-			LogicHelper.print("Registered Group: Seller | " + price + "€ | " + registered.getRelative() + "% | " + registered.getAbsolute());
+			LogicHelper.print("Registered Group: Seller | " + price + Kartoffelmarktspiel.getCurrency() + " | " + registered.getRelative() + "% | " + registered.getAbsolute());
 		}
 		
 	}

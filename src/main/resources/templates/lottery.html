@@ -19,19 +19,19 @@
 	 	<div style="font-size:130%; margin-bottom:25px;">  And the winner is ... </div>
 	 	<div id="card" style="float:left; margin-bottom:25px;">
 	 		<div th:text="#{lottery.buyer}"></div> 
-	 		<div th:text="#{PDFBuyer.value} + ': ' + ${wtp} + '€'"></div>
+	 		<div th:text="#{PDFBuyer.value} + ': ' + ${wtp} + ${currency}"></div>
 	 		<div th:text="'ID:' + ${buyerID}"></div>	 		
 	 	</div>
 	 	<div id="card" style="float:right; margin: 0px 0px 25px 50px;">
 	 		<div th:text="#{lottery.seller}"></div>  
-	 		<div th:text="#{PDFSeller.value} + ': ' + ${cost} + '€'"></div>
+	 		<div th:text="#{PDFSeller.value} + ': ' + ${cost} + ${currency"></div>
 	 		<div th:text="'ID:' + ${sellerID}"></div> 		
 	 	</div>
 	 	<p style="clear: both;"></p>
 	 	<div id="winner">
-		 	<div th:text="#{lottery.contract} + ': ' + ${price} + '€'" style="margin-bottom:25px;"></div>
-		 	<div th:class="((${bprofit} >= '0')? 'successDiv' : 'errorDiv')" th:text="((${bprofit} >= '0')? #{lottery.bprofit} : #{lottery.bLoss}) + ': ' + ${bprofit} + '€'"></div>
-		 	<div th:class="((${sprofit} >= '0')? 'successDiv' : 'errorDiv')" th:text="((${sprofit} >= '0')? #{lottery.sprofit} : #{lottery.sLoss}) + ': ' + ${sprofit} + '€'"></div> 	
+		 	<div th:text="#{lottery.contract} + ': ' + ${price} + ${currency" style="margin-bottom:25px;"></div>
+		 	<div th:class="((${bprofit} >= '0')? 'successDiv' : 'errorDiv')" th:text="((${bprofit} >= '0')? #{lottery.bprofit} : #{lottery.bLoss}) + ': ' + ${bprofit} + ${currency"></div>
+		 	<div th:class="((${sprofit} >= '0')? 'successDiv' : 'errorDiv')" th:text="((${sprofit} >= '0')? #{lottery.sprofit} : #{lottery.sLoss}) + ': ' + ${sprofit} + ${currency"></div> 	
 	 	</div>
 	 	<div style="margin-top:3%; float:right; font-size:80%">
 	 		<a href="/lottery?repeat=true" th:text="#{lottery.repeat}" ></a>

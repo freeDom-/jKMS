@@ -2,6 +2,7 @@ package jKMS.controller;
 
 import jKMS.Amount;
 import jKMS.Contract;
+import jKMS.Kartoffelmarktspiel;
 import jKMS.LogicHelper;
 import jKMS.exceptionHelper.CreateFolderFailedException;
 import jKMS.exceptionHelper.InvalidStateChangeException;
@@ -95,6 +96,7 @@ public class EvaluationController extends AbstractServerController {
 			model.addAttribute("price", winner.getPrice());
 			model.addAttribute("bprofit", bProfit);
 			model.addAttribute("sprofit", sProfit);
+			model.addAttribute("currency", Kartoffelmarktspiel.getCurrency());
 			
 			return "lottery";
 		}	else	{
@@ -152,6 +154,7 @@ public class EvaluationController extends AbstractServerController {
 			model.addAttribute("eqQuantity", Math.round(stats.get("eqQuantity")));
 			model.addAttribute("realBenefits", kms.getState().getRealBenefits());
 			model.addAttribute("hypBenefits", kms.getState().getHypBenefits());
+			model.addAttribute("currency", Kartoffelmarktspiel.getCurrency());
 			
 			
 			return "evaluate";
