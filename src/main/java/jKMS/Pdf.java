@@ -82,15 +82,17 @@ public class Pdf{
     	//PRINT
 		
         //get Strings
-		
+		String filename;
         if(CardType.isAssignableFrom(BuyerCard.class))	{
 			cardtitle = LogicHelper.getLocalizedMessage("PDFBuyer.cardtitle");
 	        value = LogicHelper.getLocalizedMessage("PDFBuyer.value") + ": ";
 			titlepage = LogicHelper.getLocalizedMessage("PDFBuyer.titlepage");
+			filename = LogicHelper.getLocalizedMessage("filename.PDF.buyer");
         }	else	{
     		cardtitle = LogicHelper.getLocalizedMessage("PDFSeller.cardtitle");
 	        value = LogicHelper.getLocalizedMessage("PDFSeller.value") + ": ";
 	  		titlepage = LogicHelper.getLocalizedMessage("PDFSeller.titlepage");
+			filename = LogicHelper.getLocalizedMessage("filename.PDF.seller");
         }
   		id = LogicHelper.getLocalizedMessage("PDF.id") + ": ";
   		packet = LogicHelper.getLocalizedMessage("PDF.package");
@@ -162,9 +164,9 @@ public class Pdf{
 	        
 	        //MetaData
 	       
-	        cardsBuyer.addTitle("Buyer-Cards");
-	        cardsBuyer.addAuthor("Kartoffelmarkspiel");
-	        cardsBuyer.addCreator("KMS");
+	        cardsBuyer.addTitle(filename);
+	        cardsBuyer.addAuthor("Pit Market 2.0");
+	        cardsBuyer.addCreator("Pit Market 2.0");
 	        
 	        Iterator<Card> itertop = topcards.iterator();
 	        Iterator<Card> iterbot = bottomcards.iterator();

@@ -106,7 +106,7 @@ public class Configuration {
 	}
 	
 	/**
-	 * @returns the number of players of the given @param type.
+	 * @return the number of players of the given @param type.
 	 * 
 	 */
 	public int getPlayerCount(String type)	{
