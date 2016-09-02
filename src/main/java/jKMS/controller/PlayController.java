@@ -1,9 +1,5 @@
 package jKMS.controller;
 
-import jKMS.Amount;
-import jKMS.Contract;
-import jKMS.exceptionHelper.InvalidStateChangeException;
-
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -11,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import jKMS.Amount;
+import jKMS.Contract;
+import jKMS.exceptionHelper.InvalidStateChangeException;
 
 /**
  * 

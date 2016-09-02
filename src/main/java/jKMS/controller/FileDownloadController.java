@@ -1,11 +1,5 @@
 package jKMS.controller;
  
-import jKMS.LogicHelper;
-import jKMS.Pdf;
-import jKMS.exceptionHelper.CreateFolderFailedException;
-import jKMS.exceptionHelper.NoContractsException;
-import jKMS.exceptionHelper.NoIntersectionException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,14 +19,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import au.com.bytecode.opencsv.CSVWriter;
-
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import au.com.bytecode.opencsv.CSVWriter;
+import jKMS.LogicHelper;
+import jKMS.Pdf;
+import jKMS.exceptionHelper.CreateFolderFailedException;
+import jKMS.exceptionHelper.NoContractsException;
+import jKMS.exceptionHelper.NoIntersectionException;
  
 /**
  * Controller for downloading any files.

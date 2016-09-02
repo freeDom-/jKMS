@@ -1,9 +1,9 @@
 package jKMS;
 
+import java.util.Calendar;
+
 import jKMS.cards.BuyerCard;
 import jKMS.cards.SellerCard;
-
-import java.util.Calendar;
 
 public class Contract {
 	private BuyerCard buyer;

@@ -1,5 +1,18 @@
 package jKMS.states;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import jKMS.Amount;
 import jKMS.Kartoffelmarktspiel;
 import jKMS.LogicHelper;
@@ -14,19 +27,6 @@ import jKMS.exceptionHelper.WrongFirstIDException;
 import jKMS.exceptionHelper.WrongPackageException;
 import jKMS.exceptionHelper.WrongPlayerCountException;
 import jKMS.exceptionHelper.WrongRelativeDistributionException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import org.springframework.web.multipart.MultipartFile;
 
 public class Load extends State {
 	
@@ -65,7 +65,7 @@ public class Load extends State {
 	            		 }
 	            		 else if(count == 2){
 	            			 firstID = Integer.valueOf(sa[1].trim());
-	            			// if(firstID != 1001){ //TODO
+	            			// if(firstID != 1001){ //TODO Update this so firstID can be set in options
 	            			//	 throw new FalseLoadFileException("firsstID is not 1001,please do not change the load file!");
 	            			// }
 	            			 count = count + 1;

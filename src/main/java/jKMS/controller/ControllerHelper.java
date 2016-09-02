@@ -1,16 +1,5 @@
 package jKMS.controller;
 
-import jKMS.Amount;
-import jKMS.Contract;
-import jKMS.Kartoffelmarktspiel;
-import jKMS.LogicHelper;
-import jKMS.exceptionHelper.CreateFolderFailedException;
-import jKMS.exceptionHelper.InvalidStateChangeException;
-import jKMS.states.Evaluation;
-import jKMS.states.Load;
-import jKMS.states.Play;
-import jKMS.states.Preparation;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -23,7 +12,6 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -40,6 +28,17 @@ import java.util.TreeSet;
 import javax.servlet.ServletRequest;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+
+import jKMS.Amount;
+import jKMS.Contract;
+import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
+import jKMS.exceptionHelper.CreateFolderFailedException;
+import jKMS.exceptionHelper.InvalidStateChangeException;
+import jKMS.states.Evaluation;
+import jKMS.states.Load;
+import jKMS.states.Play;
+import jKMS.states.Preparation;
 
 /**
  * Some static help functions
@@ -422,12 +421,13 @@ public class ControllerHelper extends AbstractController {
 	}
 	
 	/**
-	 * Gets a set of integers and converts it to a string for the javascript flot library
-	 * TODO refresh
-	 * @param 	ints Set of integers
-	 * @param	middle equilibrium price for scaling
-	 * @param	type return positive or negative curve
-	 * @return 	string holding the contract information
+	 * Gets the distribution maps, the set of contracts and converts it to a string 
+	 * readable by flot library for drawing the total rents.
+	 * 
+	 * @param 	bmap Map of buyer distribution
+	 * @param	smap Map of seller distribution
+	 * @param	contracts Set of contracts
+	 * @return 	string holding the total rents information
 	 */
 	public static String distributionToFlot(Map<Integer, Amount> bmap, Map<Integer, Amount> smap, Set<Contract> contracts){
 
@@ -446,8 +446,9 @@ public class ControllerHelper extends AbstractController {
 		int bprice = bit.next();
 		int sprice = sit.next();
 		double p = 0.01;
-//		while(curRent < ControllerHelper.getRealBenefits(contracts))	{
-		while(true)	{
+		
+		while(curRent < ControllerHelper.getRealBenefits(contracts))	{
+			// go to next step
 			if(b >= bmap.get(bprice).getAbsolute())	{
 				bprice = bit.next();
 				b = 0;
@@ -456,17 +457,16 @@ public class ControllerHelper extends AbstractController {
 				sprice = sit.next();
 				s = 0;
 			}
-			if(bprice - sprice < 0)
+			// Stop after intersection
+			if(bprice - sprice <= 0)
 				break;
+			// Add the current area to the rents
 			curRent += (bprice - sprice)*p;
 			bstr = bstr.concat("[" + a + "," + bprice + "],");
 			sstr = sstr.concat("[" + a + "," + sprice + "],");
 			a += p;
 			s += p;
-			b+= p;
-//			a++;
-//			s++;
-//			b++;
+			b += p;
 		}
 		if(bstr.length() > 1)	{
 			bstr = bstr.substring(0, bstr.length()-1);
@@ -474,26 +474,15 @@ public class ControllerHelper extends AbstractController {
 		}
 		bstr = bstr.concat("]");
 		sstr = sstr.concat("]");
-//		if(ints.isEmpty()) return "[]";
-//		
-//		int i = 0, lastint = 0;
-//		
-//		for(Integer integer : ints){
-//			if(type == "pos")
-//				integer = middle + integer/2;
-//			else
-//				integer = middle - integer/2;
-//			str = str.concat("[" + i + "," + integer + "],");
-//			i++;
-//			lastint = integer;
-//		}
-//		str = str.concat("[" + i + "," + lastint + "],");
-//		
-//		str = str.substring(0, str.length()-1).concat("]");
 		
 		return bstr.concat(";" + sstr);		
 	}
 	
+	/**
+	 * Returns the total rents that where achieved.
+	 * @param contracts The set of contracts
+	 * @return the total rents
+	 */
 	public static int getRealBenefits(Set<Contract> contracts)	{
 		int realBenefits = 0;
 		for(Contract contract : contracts){
@@ -502,8 +491,14 @@ public class ControllerHelper extends AbstractController {
 		return realBenefits;
 	}
 	
+	/**
+	 * Returns a string readable by the flot library for displaying the rent of every contract
+	 * @param contracts The set of contracts
+	 * @return A string for displaying benefit curve
+	 */
 	public static String getBenefits(Set<Contract> contracts)	{
-		if(contracts.isEmpty()) return "[]";
+		if(contracts.isEmpty()) 
+			return "[]";
 		String str = "[";
 		int i = 1;
 		for(Contract contract : contracts)	{

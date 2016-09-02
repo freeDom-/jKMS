@@ -1,15 +1,15 @@
 package jKMS.states;
 
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import jKMS.Contract;
 import jKMS.Kartoffelmarktspiel;
 import jKMS.LogicHelper;
 import jKMS.cards.BuyerCard;
 import jKMS.cards.Card;
 import jKMS.cards.SellerCard;
-
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class Play extends State {
 	

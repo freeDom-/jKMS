@@ -1,8 +1,5 @@
 package jKMS;
 
-import jKMS.cards.BuyerCard;
-import jKMS.cards.Card;
-
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -24,6 +21,9 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+
+import jKMS.cards.BuyerCard;
+import jKMS.cards.Card;
 
 /**
  * 

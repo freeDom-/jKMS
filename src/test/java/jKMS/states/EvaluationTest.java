@@ -1,15 +1,8 @@
 package jKMS.states;
 
-import jKMS.Amount;
-import jKMS.Application;
-import jKMS.Kartoffelmarktspiel;
-import jKMS.LogicHelper;
-import jKMS.cards.Card;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.junit.Before;
@@ -21,6 +14,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import jKMS.Amount;
+import jKMS.Application;
+import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -31,7 +28,6 @@ public class EvaluationTest {
 	
 	@Before
 	public void setUp(){
-		Set<Card> c;
 		
 		//Preparation
 		kms.prepare();

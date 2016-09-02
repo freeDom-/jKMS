@@ -1,21 +1,11 @@
 package jKMS.controller;
 
-import jKMS.Amount;
-import jKMS.Contract;
-import jKMS.Kartoffelmarktspiel;
-import jKMS.LogicHelper;
-import jKMS.exceptionHelper.CreateFolderFailedException;
-import jKMS.exceptionHelper.InvalidStateChangeException;
-import jKMS.exceptionHelper.NoContractsException;
-import jKMS.exceptionHelper.NoIntersectionException;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import jKMS.Amount;
+import jKMS.Contract;
+import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
+import jKMS.exceptionHelper.CreateFolderFailedException;
+import jKMS.exceptionHelper.InvalidStateChangeException;
+import jKMS.exceptionHelper.NoContractsException;
+import jKMS.exceptionHelper.NoIntersectionException;
 
 /**
  * Everything round about Evaluation

@@ -1,16 +1,5 @@
 package jKMS.controller;
 
-import jKMS.Kartoffelmarktspiel;
-import jKMS.LogicHelper;
-import jKMS.exceptionHelper.EmptyFileException;
-import jKMS.exceptionHelper.FalseLoadFileException;
-import jKMS.exceptionHelper.InvalidStateChangeException;
-import jKMS.exceptionHelper.WrongAssistantCountException;
-import jKMS.exceptionHelper.WrongFirstIDException;
-import jKMS.exceptionHelper.WrongPackageException;
-import jKMS.exceptionHelper.WrongPlayerCountException;
-import jKMS.exceptionHelper.WrongRelativeDistributionException;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -23,6 +12,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
+import jKMS.exceptionHelper.EmptyFileException;
+import jKMS.exceptionHelper.FalseLoadFileException;
+import jKMS.exceptionHelper.InvalidStateChangeException;
+import jKMS.exceptionHelper.WrongAssistantCountException;
+import jKMS.exceptionHelper.WrongFirstIDException;
+import jKMS.exceptionHelper.WrongPackageException;
+import jKMS.exceptionHelper.WrongPlayerCountException;
+import jKMS.exceptionHelper.WrongRelativeDistributionException;
 /**
  * Class for game load/exclude/start
  * @author siegmund42

@@ -3,16 +3,6 @@ package jKMS.states;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import jKMS.Amount;
-import jKMS.Application;
-import jKMS.Kartoffelmarktspiel;
-import jKMS.LogicHelper;
-import jKMS.Package;
-import jKMS.cards.BuyerCard;
-import jKMS.cards.Card;
-import jKMS.cards.SellerCard;
-import jKMS.exceptionHelper.EmptyFileException;
-import jKMS.exceptionHelper.FalseLoadFileException;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,6 +26,17 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.multipart.MultipartFile;
+
+import jKMS.Amount;
+import jKMS.Application;
+import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
+import jKMS.Package;
+import jKMS.cards.BuyerCard;
+import jKMS.cards.Card;
+import jKMS.cards.SellerCard;
+import jKMS.exceptionHelper.EmptyFileException;
+import jKMS.exceptionHelper.FalseLoadFileException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -197,7 +198,7 @@ public class LoadTest {
 		   Set<Entry<Integer, Amount>> bSet = expectedbDistribution.entrySet();
 		   Iterator<Entry<Integer, Amount>> bIter = bSet.iterator();
 		   while(bIter.hasNext()){
-			   Map.Entry bEntry = (Map.Entry)bIter.next(); 
+			   Map.Entry<Integer, Amount> bEntry = (Map.Entry<Integer, Amount>)bIter.next(); 
 		    
 			   str.append("bDistribution:"+bEntry.getKey()+":"+((Amount) bEntry.getValue()).getRelative()+":"+((Amount) bEntry.getValue()).getAbsolute()).append(line);
 		   }
@@ -206,7 +207,7 @@ public class LoadTest {
 		   Set<Entry<Integer, Amount>> sSet = expectedsDistribution.entrySet();
 		   Iterator<Entry<Integer, Amount>> sIter = sSet.iterator();
 		   while(sIter.hasNext()){ 
-			   Map.Entry sEntry = (Map.Entry)sIter.next(); 
+			   Map.Entry<Integer, Amount> sEntry = (Map.Entry<Integer, Amount>)sIter.next(); 
 		    
 			   str.append("sDistribution:"+sEntry.getKey()+":"+((Amount)sEntry.getValue()).getRelative()+":"+((Amount)sEntry.getValue()).getAbsolute()).append(line);
 		   }
@@ -244,19 +245,7 @@ public class LoadTest {
 	  //create MultipartFile configTest as parameter for load()
 	    MultipartFile configTest = new MockMultipartFile(name,
 	                         originalFileName, contentType, content);
-	    
-//	    try {
-//			BufferedReader br = new BufferedReader(new InputStreamReader(configTest.getInputStream()));
-//			String buf = "";
-//	   	    while ((buf=br.readLine()) !=null) {
-//			   buf=buf.trim();
-//			   LogicHelper.print(buf);
-//	   	    }
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace(); 
-//		}                                                                             // read multipartfile
-//   	    
+
 	  //load() execute and check
 	    try {
 			kms.getState().load(configTest);
@@ -279,16 +268,16 @@ public class LoadTest {
 		assertEquals("system did not load the right sDistributionCount", expectedsDistribution.size(), kms.getConfiguration().getsDistribution().size());
 		
 		//check bDistribution and sDistribution
-		Set bd_key1 = expectedbDistribution.keySet();
-		Set bd_key2 = kms.getConfiguration().getbDistribution().keySet();
+		Set<Integer> bd_key1 = expectedbDistribution.keySet();
+		Set<Integer> bd_key2 = kms.getConfiguration().getbDistribution().keySet();
 		if(bd_key1.equals(bd_key2)){
 			for(int i =0;i<bd_key1.size();i++){
 				assertSame("system did not load the right Absolute value bDistribution", expectedbDistribution.get(bd_key1.toArray()[i]).getAbsolute(), kms.getConfiguration().getbDistribution().get(bd_key1.toArray()[i]).getAbsolute());
 				assertSame("system did not load the right Relative value bDistribution", expectedbDistribution.get(bd_key1.toArray()[i]).getRelative(), kms.getConfiguration().getbDistribution().get(bd_key1.toArray()[i]).getRelative());
 			}
 		}
-		Set sd_key1 = expectedsDistribution.keySet();
-		Set sd_key2 = kms.getConfiguration().getsDistribution().keySet();
+		Set<Integer> sd_key1 = expectedsDistribution.keySet();
+		Set<Integer> sd_key2 = kms.getConfiguration().getsDistribution().keySet();
 		if(sd_key1.equals(sd_key2)){
 			for(int i =0;i<sd_key1.size();i++){
 				assertSame("system did not load the right Absolute value for sDistribution", expectedsDistribution.get(sd_key1.toArray()[i]).getAbsolute(), kms.getConfiguration().getsDistribution().get(sd_key1.toArray()[i]).getAbsolute());

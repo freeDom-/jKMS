@@ -1,18 +1,5 @@
 package jKMS.controller;
 
-import jKMS.Amount;
-import jKMS.Kartoffelmarktspiel;
-import jKMS.LogicHelper;
-import jKMS.exceptionHelper.CreateFolderFailedException;
-import jKMS.exceptionHelper.EmptyFileException;
-import jKMS.exceptionHelper.FalseLoadFileException;
-import jKMS.exceptionHelper.InvalidStateChangeException;
-import jKMS.exceptionHelper.NoIntersectionException;
-import jKMS.exceptionHelper.WrongAssistantCountException;
-import jKMS.exceptionHelper.WrongFirstIDException;
-import jKMS.exceptionHelper.WrongPlayerCountException;
-import jKMS.exceptionHelper.WrongRelativeDistributionException;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,6 +16,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jKMS.Amount;
+import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
+import jKMS.exceptionHelper.CreateFolderFailedException;
+import jKMS.exceptionHelper.EmptyFileException;
+import jKMS.exceptionHelper.FalseLoadFileException;
+import jKMS.exceptionHelper.InvalidStateChangeException;
+import jKMS.exceptionHelper.NoIntersectionException;
+import jKMS.exceptionHelper.WrongAssistantCountException;
+import jKMS.exceptionHelper.WrongFirstIDException;
+import jKMS.exceptionHelper.WrongPlayerCountException;
+import jKMS.exceptionHelper.WrongRelativeDistributionException;
 
 /**
  * Class for all preparing game functions

@@ -1,9 +1,10 @@
 package jKMS.cards;
 
 import static org.junit.Assert.assertEquals;
-import jKMS.Package;
 
 import org.junit.Test;
+
+import jKMS.Package;
 
 public class SellerCardTest {
 	

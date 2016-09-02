@@ -1,12 +1,6 @@
 package jKMS.states;
 
 import static org.junit.Assert.assertEquals;
-import jKMS.Amount;
-import jKMS.Application;
-import jKMS.Kartoffelmarktspiel;
-import jKMS.Package;
-import jKMS.cards.BuyerCard;
-import jKMS.cards.SellerCard;
 
 import java.util.TreeMap;
 
@@ -17,6 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import jKMS.Amount;
+import jKMS.Application;
+import jKMS.Kartoffelmarktspiel;
+import jKMS.Package;
+import jKMS.cards.BuyerCard;
+import jKMS.cards.SellerCard;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)

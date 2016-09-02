@@ -1,10 +1,6 @@
 package jKMS;
 
 
-import jKMS.cards.BuyerCard;
-import jKMS.cards.Card;
-import jKMS.cards.SellerCard;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,6 +10,9 @@ import java.util.List;
 import java.util.Set;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import jKMS.cards.BuyerCard;
+import jKMS.cards.Card;
+import jKMS.cards.SellerCard;
 
 public class Csv {
 	

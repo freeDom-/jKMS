@@ -1,15 +1,15 @@
 package jKMS;
 
-import jKMS.cards.BuyerCard;
-import jKMS.cards.Card;
-import jKMS.cards.SellerCard;
-import jKMS.exceptionHelper.WrongPackageException;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import jKMS.cards.BuyerCard;
+import jKMS.cards.Card;
+import jKMS.cards.SellerCard;
+import jKMS.exceptionHelper.WrongPackageException;
 
 /**
  * Represents the packages for assistants.

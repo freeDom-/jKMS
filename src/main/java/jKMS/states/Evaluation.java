@@ -1,14 +1,5 @@
 package jKMS.states;
 
-import jKMS.Amount;
-import jKMS.Contract;
-import jKMS.Csv;
-import jKMS.Kartoffelmarktspiel;
-import jKMS.LogicHelper;
-import jKMS.controller.ControllerHelper;
-import jKMS.exceptionHelper.NoContractsException;
-import jKMS.exceptionHelper.NoIntersectionException;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,6 +8,14 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import jKMS.Amount;
+import jKMS.Contract;
+import jKMS.Csv;
+import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
+import jKMS.controller.ControllerHelper;
+import jKMS.exceptionHelper.NoContractsException;
+import jKMS.exceptionHelper.NoIntersectionException;
 
 public class Evaluation extends State{
 	
@@ -244,7 +243,7 @@ public class Evaluation extends State{
 		} catch(IndexOutOfBoundsException e)	{
 			if(kms.getPlayerCount() % 2 == 0)	{
 				// Error, IndexOutOfBounds can only happen if number of buyers and sellers is not equal (odd player count)
-				LogicHelper.print("Fehler in der Anwendung - hypothetische Renten konnten nicht berechnet werden.", 2); // TODO i18n
+				LogicHelper.print(LogicHelper.getLocalizedMessage("error.evaluation.hypBenefits"), 2);
 			}
 		}
 		return hypBenefit;

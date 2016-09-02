@@ -1,19 +1,5 @@
 package jKMS.states;
 
-import jKMS.Amount;
-import jKMS.Kartoffelmarktspiel;
-import jKMS.LogicHelper;
-import jKMS.Pdf;
-import jKMS.cards.BuyerCard;
-import jKMS.cards.Card;
-import jKMS.cards.SellerCard;
-import jKMS.exceptionHelper.EmptyFileException;
-import jKMS.exceptionHelper.FalseLoadFileException;
-import jKMS.exceptionHelper.WrongAssistantCountException;
-import jKMS.exceptionHelper.WrongFirstIDException;
-import jKMS.exceptionHelper.WrongPlayerCountException;
-import jKMS.exceptionHelper.WrongRelativeDistributionException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,6 +17,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+
+import jKMS.Amount;
+import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
+import jKMS.Pdf;
+import jKMS.cards.BuyerCard;
+import jKMS.cards.Card;
+import jKMS.cards.SellerCard;
+import jKMS.exceptionHelper.EmptyFileException;
+import jKMS.exceptionHelper.FalseLoadFileException;
+import jKMS.exceptionHelper.WrongAssistantCountException;
+import jKMS.exceptionHelper.WrongFirstIDException;
+import jKMS.exceptionHelper.WrongPlayerCountException;
+import jKMS.exceptionHelper.WrongRelativeDistributionException;
 
 public class Preparation extends State	{
 
@@ -186,7 +186,7 @@ public class Preparation extends State	{
 				   Set<Entry<Integer, Amount>> bSet = bDistributionSave.entrySet();
 				   Iterator<Entry<Integer, Amount>> bIter = bSet.iterator();
 				   while(bIter.hasNext()){
-					   Map.Entry bEntry = (Map.Entry)bIter.next(); 
+					   Map.Entry<Integer, Amount> bEntry = (Map.Entry<Integer, Amount>)bIter.next(); 
 				    
 					   str.append("bDistribution:"+bEntry.getKey()+":"+((Amount) bEntry.getValue()).getRelative()+":"+((Amount) bEntry.getValue()).getAbsolute()).append(line);
 				   }
@@ -195,7 +195,7 @@ public class Preparation extends State	{
 				   Set<Entry<Integer, Amount>> sSet = sDistributionSave.entrySet();
 				   Iterator<Entry<Integer, Amount>> sIter = sSet.iterator();
 				   while(sIter.hasNext()){ 
-					   Map.Entry sEntry = (Map.Entry)sIter.next(); 
+					   Map.Entry<Integer, Amount> sEntry = (Map.Entry<Integer, Amount>)sIter.next(); 
 				    
 					   str.append("sDistribution:"+sEntry.getKey()+":"+((Amount)sEntry.getValue()).getRelative()+":"+((Amount)sEntry.getValue()).getAbsolute()).append(line);
 				   }
@@ -265,7 +265,7 @@ public class Preparation extends State	{
 		while ((bTemp.isEmpty() != true) || (sTemp.isEmpty() != true)) {
 			
 			// Create Buyer Card
-			if((id % 2) == 1 && bKeys.size() > 0){ // TODO TEST !!!
+			if((id % 2) == 1 && bKeys.size() > 0){
 				//all buyercards have an uneven id
 				randomListEntry = random.nextInt(bKeys.size());
 				randomKey = bKeys.get(randomListEntry);

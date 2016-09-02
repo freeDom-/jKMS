@@ -1,8 +1,6 @@
 package jKMS;
 
 import static org.junit.Assert.assertEquals;
-import jKMS.cards.BuyerCard;
-import jKMS.cards.SellerCard;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import jKMS.cards.BuyerCard;
+import jKMS.cards.SellerCard;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)

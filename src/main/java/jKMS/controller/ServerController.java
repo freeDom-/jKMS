@@ -1,22 +1,10 @@
 package jKMS.controller;
 
-import jKMS.Application;
-import jKMS.LogicHelper;
-import jKMS.exceptionHelper.CreateFolderFailedException;
-import jKMS.states.Evaluation;
-import jKMS.states.Load;
-import jKMS.states.Play;
-import jKMS.states.Preparation;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jKMS.Application;
+import jKMS.Kartoffelmarktspiel;
+import jKMS.LogicHelper;
+import jKMS.exceptionHelper.CreateFolderFailedException;
+import jKMS.states.Evaluation;
+import jKMS.states.Load;
+import jKMS.states.Play;
+import jKMS.states.Preparation;
 /**
  * 
  * Class for non categorizable server side requests
@@ -68,7 +65,7 @@ public class ServerController extends AbstractServerController	{
 		
 		model.addAttribute("users", ControllerHelper.getUsers());
 		model.addAttribute("languages", ControllerHelper.getLanguages());
-		model.addAttribute("currCurrency", kms.getCurrency());
+		model.addAttribute("currCurrency", Kartoffelmarktspiel.getCurrency());
 		model.addAttribute("currencies", kms.getCurrencys());
 		return "settings";
 	}
