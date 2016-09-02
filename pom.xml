@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<version>2.1-BETA</version>
+	<version>2.0-RELEASE</version>
 
-	<description>Pit Market 2.1</description>
+	<description>Pit Market 2.0 is a software, written for playing the original Pit Market game descriped by Holt Charles A. with huge classes.</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -76,5 +76,5 @@
 
 	<artifactId>jkms</artifactId>
 	<groupId>tud.jkms</groupId>
-	<name>Pit Market 2.1</name>
+	<name>Pit Market 2.0</name>
 </project>
