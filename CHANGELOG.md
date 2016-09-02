@@ -1,7 +1,7 @@
 Pit Market 2.0 Changelog
 ========================
 
-##New features in release 2.1
+##New features in release 2.0
 
 *   New views for evaluation:
 	*	Benefits over time (benefit of every contract)
