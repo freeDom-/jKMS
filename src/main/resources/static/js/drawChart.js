@@ -129,7 +129,7 @@ function drawChart(data, type, contracts, distributions, hypBenefits, benefitGra
 					processData: false,
 					contentType: false,
 					mimeType: "multipart/form-data",
-					success:function(response){console.log(response); if(type == 3) window.location.href='pdfDownload.html';},
+					success:function(response){if(type == 3) window.location.href='pdfDownload.html';},
 					error: function(e){console.log(e);}			
 				});
 			},

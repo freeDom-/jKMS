@@ -38,7 +38,7 @@
 	 		<li th:if="${extra} == 1 OR ${extra} == 2">
 	            <a href="#" th:text="#{messages.export}"></a>
 	            <ul>
-			 		<li><a href="" target="_blank" th:text="#{messages.export.pdf}" onClick="javascript:drawChart(chartContent, 3, contractsStat, distributionsStat, hypBenefitsStat); return false;" ></a></li>
+			 		<li><a href="" target="_blank" th:text="#{messages.export.pdf}" onClick="javascript:drawChart(chartContent, 3, contractsStat, distributionsStat, hypBenefitsStat, benefitGraph); return false;" ></a></li>
 			 		<li><a href="/csv" target="_blank" th:text="#{messages.export.csv}" ></a></li>
 				</ul>
 			</li>
