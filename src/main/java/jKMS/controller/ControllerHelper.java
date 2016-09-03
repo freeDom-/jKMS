@@ -445,7 +445,7 @@ public class ControllerHelper extends AbstractController {
 		double curRent = 0, b = 0, s = 0, a = 0;
 		int bprice = bit.next();
 		int sprice = sit.next();
-		double p = 0.01;
+		double p = 0.04;
 		
 		while(curRent < ControllerHelper.getRealBenefits(contracts))	{
 			// go to next step
