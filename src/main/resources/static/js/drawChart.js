@@ -110,13 +110,13 @@ function drawChart(data, type, contracts, distributions, hypBenefits, benefitGra
 		var header = $("meta[name='_csrf_header']").attr("content");
 		var token = $("meta[name='_csrf']").attr("content");
 		var formData = new FormData();
-		if(type == 3)	{
+		if(type == 3)	{ // manual PDF export - only one image needed
 			plot.getCanvas().toBlob(
 				function(image){
 					formData.append("image",image,"image.png");
 					sendAJAX("pdfExport", formData);
 				},"image/png");
-		}	else	{
+		}	else	{	// silent PDF export - prepare 4 images
 			var image1, image2, image3, image4;
 			
 			// Contracts + distributions
@@ -153,6 +153,7 @@ function drawChart(data, type, contracts, distributions, hypBenefits, benefitGra
 
 			var currentCallbacks = 0;
 			
+			// workaround needed to synchronize 4 callback methods
 			function commonCallback()	{
 				currentCallbacks++;
 				if(currentCallbacks == 4)	{

@@ -6,11 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
@@ -163,17 +159,16 @@ public class FileDownloadController extends AbstractServerController {
 
     }
     
-    
     /**
      * catch ajax-request when evaluate.html is ready
-     * @param image
-     * @throws IllegalStateException
-     * @throws NoIntersectionException
+     * @param image1 Images for PDF generation
+     * @param image2 Images for PDF generation
+     * @param image3 Images for PDF generation
+     * @param image4 Images for PDF generation
      */
     @RequestMapping(value = "/silentPdfExport",
     				method = RequestMethod.POST)
     public void silentExportPDF(
-//    		MultipartHttpServletRequest request
     		@RequestParam("image1") MultipartFile image1, 
     		@RequestParam("image2") MultipartFile image2, 
     		@RequestParam("image3") MultipartFile image3, 
@@ -183,13 +178,6 @@ public class FileDownloadController extends AbstractServerController {
     	byte[] imageBytes2 = null;
     	byte[] imageBytes3 = null;
     	byte[] imageBytes4 = null;
-    	
-//    	 Iterator<String> itr =  request.getFileNames();
-//
-//    	 MultipartFile image1 = request.getFile(itr.next());
-//    	 MultipartFile image2 = request.getFile(itr.next());
-//    	 MultipartFile image3 = request.getFile(itr.next());
-//    	 MultipartFile image4 = request.getFile(itr.next());
 
     	if(!image1.isEmpty() && !image2.isEmpty() && !image3.isEmpty() && !image4.isEmpty()){
     		try	{
@@ -254,9 +242,6 @@ public class FileDownloadController extends AbstractServerController {
 		}
 
     }
-    
-    
-    
     
 	/**
 	 *  Downloading Exported PDF

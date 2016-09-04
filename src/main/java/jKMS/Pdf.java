@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 //import java.util.Properties;
 import java.util.Set;
@@ -371,7 +370,7 @@ public class Pdf{
 	 *generate the export pdf with the statistics and the chart as image
 	 * 
 	 * @param doc 		document for export
-	 * @param pdfImage 	image of the chart
+	 * @param pdfImages 	List of chart images
 	 * @param stats  	Map of the statistics 
 	 * @return 	the document (pdf export)
 	 * 		
@@ -402,6 +401,7 @@ public class Pdf{
     	
 		doc.add(head);
 		
+		// Manual PDF export
 		if(pdfImages.size() == 1)	{
 		
 			String averageValue = String.format("%.2f", Math.round(stats.get("averagePrice")*100)/100.0) + currency;
@@ -433,7 +433,6 @@ public class Pdf{
 	    	//dummy cell to complete the the third row
 	    	PdfPCell cell3 = new PdfPCell();
 	    	cell3.setBorder(Rectangle.NO_BORDER);
-	
 	    	
 	    	table.addCell(cell11);
 	    	table.addCell(cell12);
@@ -447,7 +446,6 @@ public class Pdf{
 	    	
 	    	doc.add(table);
 	    	
-	    	
 	    	//insert image of the chart
 	    	float chartWidth = doc.getPageSize().getWidth() - doc.leftMargin() - doc.rightMargin();
 	    	float chartHeight = doc.getPageSize().getHeight() - doc.topMargin() - doc.bottomMargin() - 120;
@@ -455,7 +453,8 @@ public class Pdf{
 			Image myimg = pdfImages.removeFirst();
 			myimg.scaleToFit(chartWidth, chartHeight);
 			doc.add(myimg);
-		}	else	{
+			
+		}	else	{ // Silent PDF export
 			
 			String averageValue = String.format("%.2f", Math.round(stats.get("averagePrice")*100)/100.0) + currency;
 			String deviationValue = String.format("%.2f", Math.round(stats.get("standardDeviation")*100)/100.0);
@@ -580,7 +579,6 @@ public class Pdf{
 	    	float chartWidth4 = doc.getPageSize().getWidth() - doc.leftMargin() - doc.rightMargin();
 	    	float chartHeight4 = doc.getPageSize().getHeight() - doc.topMargin() - doc.bottomMargin() - 120;
 	
-	    	
 			Image myimg4 = pdfImages.removeFirst();
 			myimg4.scaleToFit(chartWidth4, chartHeight4);
 			doc.add(myimg4);

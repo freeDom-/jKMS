@@ -154,7 +154,6 @@ public class EvaluationController extends AbstractServerController {
 			model.addAttribute("hypBenefits", kms.getState().getHypBenefits());
 			model.addAttribute("currency", Kartoffelmarktspiel.getCurrency());
 			
-			
 			return "evaluate";
 		}	else	{
 			return "redirect:/reset";
