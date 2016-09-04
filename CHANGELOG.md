@@ -11,3 +11,4 @@ Pit Market 2.0 Changelog
 	*	Statistics Container is now draggable
 *	Some improvements of english translation
 *	Currency is now adjustable in settings
+*	Auto export-PDF shows different statistics on 4 pages. Manual export gives ability to export a specific chart view

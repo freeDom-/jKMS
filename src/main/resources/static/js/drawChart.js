@@ -109,31 +109,82 @@ function drawChart(data, type, contracts, distributions, hypBenefits, benefitGra
 		//prepare export of the image of the chart
 		var header = $("meta[name='_csrf_header']").attr("content");
 		var token = $("meta[name='_csrf']").attr("content");
-		var myCanvas = plot.getCanvas();
-		console.log(myCanvas);
 		var formData = new FormData();
-		myCanvas.toBlob(
-			function(image){
-	
-				formData.append("image",image,"image.png");
-				formData.append("se", (type == 2));
-				
-				//send image to logic/java
-				$.ajax({
-					beforeSend: function(request) {
-						request.setRequestHeader(header, token);
-					},
-					url: "pdfExport.html",
-					type: "POST",
-					data: formData,
-					processData: false,
-					contentType: false,
-					mimeType: "multipart/form-data",
-					success:function(response){if(type == 3) window.location.href='pdfDownload.html';},
-					error: function(e){console.log(e);}			
-				});
-			},
-			"image/png");
+		if(type == 3)	{
+			plot.getCanvas().toBlob(
+				function(image){
+					formData.append("image",image,"image.png");
+					sendAJAX("pdfExport", formData);
+				},"image/png");
+		}	else	{
+			var image1, image2, image3, image4;
+			
+			// Contracts + distributions
+			drawChart(chartContent, 1, true, true, false, false);
+			plot.getCanvas().toBlob(
+				function(image){
+					image2 = image;
+					commonCallback();
+				},"image/png");
+
+			// Contracts + distributions + benefits
+			drawChart(chartContent, 1, true, true, false, true);
+			plot.getCanvas().toBlob(
+				function(image){
+					image3 = image;
+					commonCallback();
+				},"image/png");
+
+			// Contracts + distributions + total rent
+			drawChart(chartContent, 1, true, true, true, false);
+			plot.getCanvas().toBlob(
+				function(image){
+					image4 = image;
+					commonCallback();
+				},"image/png");
+			
+			// Only contracts
+			drawChart(chartContent, 1, true, false, false, false);
+			plot.getCanvas().toBlob(
+				function(image){
+					image1 = image;
+					commonCallback();
+				},"image/png");
+
+			var currentCallbacks = 0;
+			
+			function commonCallback()	{
+				currentCallbacks++;
+				if(currentCallbacks == 4)	{
+					console.log(image1);
+					console.log(image2);
+					console.log(image3);
+					formData.append("image1",image1,"image1.png");
+					console.log(image4);
+					formData.append("image2",image2,"image2.png");
+					formData.append("image3",image3,"image3.png");
+					formData.append("image4",image4,"image4.png");
+					sendAJAX("silentPdfExport", formData);
+				}
+			}
+		}
+		
+		function sendAJAX(url, formData)	{
+			//send image to logic/java
+			$.ajax({
+				beforeSend: function(request) {
+					request.setRequestHeader(header, token);
+				},
+				url: url,
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				mimeType: "multipart/form-data",
+				success:function(response){if(type == 3) window.location.href='pdfDownload.html';},
+				error: function(e){console.log(e);}			
+			});
+		}
 	}
 	
 }
