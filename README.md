@@ -16,6 +16,3 @@ Kartoffelmarktspiel
 5. Select a directory your project should be cloned to
 6. Import existing project
 7. Finish
-
-
-##Pushing policy
