@@ -408,6 +408,7 @@ public class Pdf{
 			String deviationValue = String.format("%.2f", Math.round(stats.get("standardDeviation")*100)/100.0);
 	    	
 	    	PdfPTable table = new PdfPTable(3);
+	    	table.setWidthPercentage(90);
 	    	
 	    	PdfPCell cell11 = new PdfPCell(new Paragraph(average + averageValue ,valueFont));
 	    	cell11.setBorder(Rectangle.NO_BORDER);
@@ -434,15 +435,15 @@ public class Pdf{
 	    	PdfPCell cell3 = new PdfPCell();
 	    	cell3.setBorder(Rectangle.NO_BORDER);
 	    	
-	    	table.addCell(cell11);
-	    	table.addCell(cell12);
-	    	table.addCell(cell13);
 	    	table.addCell(cell21);
-	    	table.addCell(cell22);
-	    	table.addCell(cell23);
 	    	table.addCell(cell31);
-	    	table.addCell(cell32);
+	    	table.addCell(cell12);
+	    	table.addCell(cell11);
+	    	table.addCell(cell13);
 	    	table.addCell(cell33);
+	    	table.addCell(cell22);
+	    	table.addCell(cell32);
+	    	table.addCell(cell23);
 	    	
 	    	doc.add(table);
 	    	
@@ -452,6 +453,7 @@ public class Pdf{
 	
 			Image myimg = pdfImages.removeFirst();
 			myimg.scaleToFit(chartWidth, chartHeight);
+			myimg.setAlignment(Image.MIDDLE);
 			doc.add(myimg);
 			
 		}	else	{ // Silent PDF export
@@ -460,28 +462,29 @@ public class Pdf{
 			String deviationValue = String.format("%.2f", Math.round(stats.get("standardDeviation")*100)/100.0);
 	    	
 	    	PdfPTable table1 = new PdfPTable(3);
+	    	table1.setWidthPercentage(90);
 	    	
-	    	PdfPCell cell11 = new PdfPCell(new Paragraph(average + averageValue ,valueFont));
-	    	cell11.setBorder(Rectangle.NO_BORDER);
-	    	PdfPCell cell12 = new PdfPCell(new Paragraph(standDev + deviationValue ,valueFont));
-	    	cell12.setBorder(Rectangle.NO_BORDER);
-
 	    	PdfPCell cell21 = new PdfPCell(new Paragraph(min + Math.round(stats.get("minimum")) + currency,valueFont));
 	    	cell21.setBorder(Rectangle.NO_BORDER);
-	    	PdfPCell cell13 = new PdfPCell(new Paragraph(size + Math.round(stats.get("contractsSize")),valueFont));
-	    	cell13.setBorder(Rectangle.NO_BORDER);
+	    	PdfPCell cell11 = new PdfPCell(new Paragraph(average + averageValue ,valueFont));
+	    	cell11.setBorder(Rectangle.NO_BORDER);
 
 	    	PdfPCell cell31 = new PdfPCell(new Paragraph(max + Math.round(stats.get("maximum")) + currency,valueFont));
 	    	cell31.setBorder(Rectangle.NO_BORDER);
+	    	PdfPCell cell13 = new PdfPCell(new Paragraph(size + Math.round(stats.get("contractsSize")),valueFont));
+	    	cell13.setBorder(Rectangle.NO_BORDER);
+
+	    	PdfPCell cell12 = new PdfPCell(new Paragraph(standDev + deviationValue ,valueFont));
+	    	cell12.setBorder(Rectangle.NO_BORDER);
 	    	
 	    	//dummy cell to complete the the third row
 	    	PdfPCell cell3 = new PdfPCell();
 	    	cell3.setBorder(Rectangle.NO_BORDER);
 	    	
-	    	table1.addCell(cell11);
 	    	table1.addCell(cell21);
 	    	table1.addCell(cell31);
 	    	table1.addCell(cell12);
+	    	table1.addCell(cell11);
 	    	table1.addCell(cell13);
 	    	table1.addCell(cell3);
 	    	
@@ -494,26 +497,28 @@ public class Pdf{
 	    	
 			Image myimg1 = pdfImages.removeFirst();
 			myimg1.scaleToFit(chartWidth1, chartHeight1);
+			myimg1.setAlignment(Image.MIDDLE);
 			doc.add(myimg1);
 			
 			// Page 2
 			doc.newPage();
 			
 			PdfPTable table2 = new PdfPTable(3);
+	    	table2.setWidthPercentage(90);
 			
 	    	PdfPCell cell22 = new PdfPCell(new Paragraph(eqPrice + Math.round(stats.get("eqPrice")) + currency,valueFont));
 	    	cell22.setBorder(Rectangle.NO_BORDER);
 	    	PdfPCell cell32 = new PdfPCell(new Paragraph(eqQuantity + Math.round(stats.get("eqQuantity")),valueFont));
 	    	cell32.setBorder(Rectangle.NO_BORDER);
-			
-			table2.addCell(cell11);
+
 	    	table2.addCell(cell21);
 	    	table2.addCell(cell31);
 	    	table2.addCell(cell12);
+	    	table2.addCell(cell11);
 	    	table2.addCell(cell13);
+	    	table2.addCell(cell3);
 	    	table2.addCell(cell22);
 	    	table2.addCell(cell32);
-	    	table2.addCell(cell3);
 	    	table2.addCell(cell3);
 			
 	    	doc.add(table2);
@@ -525,21 +530,23 @@ public class Pdf{
 	    	
 			Image myimg2 = pdfImages.removeFirst();
 			myimg2.scaleToFit(chartWidth2, chartHeight2);
+			myimg2.setAlignment(Image.MIDDLE);
 			doc.add(myimg2);
 			
 			// Page 3
 			doc.newPage();
 			
 			PdfPTable table3 = new PdfPTable(3);
+	    	table3.setWidthPercentage(90);
 			
-			table3.addCell(cell11);
-	    	table3.addCell(cell21);
+			table3.addCell(cell21);
 	    	table3.addCell(cell31);
 	    	table3.addCell(cell12);
+	    	table3.addCell(cell11);
 	    	table3.addCell(cell13);
+	    	table3.addCell(cell3);
 	    	table3.addCell(cell22);
 	    	table3.addCell(cell32);
-	    	table3.addCell(cell3);
 	    	table3.addCell(cell3);
 			
 	    	doc.add(table3);
@@ -551,26 +558,28 @@ public class Pdf{
 	    	
 			Image myimg3 = pdfImages.removeFirst();
 			myimg3.scaleToFit(chartWidth3, chartHeight3);
+			myimg3.setAlignment(Image.MIDDLE);
 			doc.add(myimg3);
 			
 			// Page 4
 			doc.newPage();
 			
 			PdfPTable table4 = new PdfPTable(3);
+	    	table4.setWidthPercentage(90);
 	    	
 	    	PdfPCell cell23 = new PdfPCell(new Paragraph(hypBen + Math.round(stats.get("hypBen")) + currency,valueFont));
 	    	cell23.setBorder(Rectangle.NO_BORDER);
 	    	PdfPCell cell33 = new PdfPCell(new Paragraph(realBen + Math.round(stats.get("realBen")) + currency,valueFont));
 	    	cell33.setBorder(Rectangle.NO_BORDER);
 			
-			table4.addCell(cell11);
 	    	table4.addCell(cell21);
 	    	table4.addCell(cell31);
 	    	table4.addCell(cell12);
+	    	table4.addCell(cell11);
 	    	table4.addCell(cell13);
+	    	table4.addCell(cell33);
 	    	table4.addCell(cell22);
 	    	table4.addCell(cell32);
-	    	table4.addCell(cell33);
 	    	table4.addCell(cell23);
 			
 	    	doc.add(table4);
@@ -581,6 +590,7 @@ public class Pdf{
 	
 			Image myimg4 = pdfImages.removeFirst();
 			myimg4.scaleToFit(chartWidth4, chartHeight4);
+			myimg4.setAlignment(Image.MIDDLE);
 			doc.add(myimg4);
 			
 		}

@@ -66,7 +66,7 @@ public class Application extends WebMvcConfigurerAdapter {
 		}
 		else {
 			LogicHelper.print("Port 8080 is already in use!", 2);
-			gui.setError(LogicHelper.getLocalizedMessage("GUI.lblErrorSeeLog"));
+			gui.setError(LogicHelper.getLocalizedMessage("GUI.lblErrorPort"));
 		}
 		
 	}
