@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<object  th:include="resources :: meta">
+	</object>
+    <title th:text="#{messages.exit}">Willkommen</title>
+    <script th:inline="javascript">
+    //window.close();
+    </script>
+    <script th:src="@{/js/script.js}"></script>
+	<script src="/js/jquery-2.1.1.min.js" ></script>
+    
+</head>
+ <body>
+ 	<div th:replace="resources :: toolBar(0, 42, -2)">
+	</div>
+ 	<noscript>
+ 		<div th:text="#{noscript}"></div>
+ 	</noscript>
+	<div th:replace="resources :: globalHeading">
+ 	</div>
+	<div id="inhalt">
+	 	<div th:replace="resources :: heading (exit)">
+	 	</div>
+	 	<div class="textarea" th:text="#{exit.message}"></div>
+	</div>
+	<div th:replace="resources :: footer">
+ 	</div>
+ </body>
+</html>

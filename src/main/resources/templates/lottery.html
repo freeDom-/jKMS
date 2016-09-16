@@ -16,7 +16,11 @@
  	</noscript>
 	<div id="inhalt">
 	 	<div th:replace="resources :: heading (lottery)"></div>
+	 	<div style="margin-top:1%; float:right; font-size:80%; padding">
+	 		<a href="/lottery?repeat=true" th:text="#{lottery.repeat}" style="margin: 0;"></a>
+	 	</div>
 	 	<div style="font-size:130%; margin-bottom:25px;">  And the winner is ... </div>
+	 	
 	 	<div id="card" style="float:left; margin-bottom:25px;">
 	 		<div th:text="#{lottery.buyer}"></div> 
 	 		<div th:text="#{PDFBuyer.value} + ': ' + ${wtp} + ${currency}"></div>
@@ -33,9 +37,9 @@
 		 	<div th:class="((${bprofit} >= '0')? 'successDiv' : 'errorDiv')" th:text="((${bprofit} >= '0')? #{lottery.bprofit} : #{lottery.bLoss}) + ': ' + ${bprofit} + ${currency}"></div>
 		 	<div th:class="((${sprofit} >= '0')? 'successDiv' : 'errorDiv')" th:text="((${sprofit} >= '0')? #{lottery.sprofit} : #{lottery.sLoss}) + ': ' + ${sprofit} + ${currency}"></div> 	
 	 	</div>
-	 	<div style="margin-top:3%; float:right; font-size:80%">
-	 		<a href="/lottery?repeat=true" th:text="#{lottery.repeat}" ></a>
-	 	</div>
+	 	<br />
+	 	<a href="index.html" th:text="#{lottery.rerunGame}"></a>
+	 	<a href="exit.html" th:text="#{lottery.exitGame}"></a>
 	</div>
  </body>
 </html>

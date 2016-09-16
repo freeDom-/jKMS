@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -177,7 +180,7 @@ public class ServerController extends AbstractServerController	{
 	}
 	
 	/**
-	 * Auto redirect method when coming from GUI by pressing opne browser button
+	 * Auto redirect method when coming from GUI by pressing open browser button
 	 * @return	the correct template redirect
 	 */
 	@RequestMapping("/autoRedirect")
@@ -187,5 +190,21 @@ public class ServerController extends AbstractServerController	{
 		else if(kms.getState() instanceof Play) return "redirect:/play";
 		else if(kms.getState() instanceof Evaluation) return "redirect:/evaluate";
 		else return "redirect:/index";
+	}
+	
+	/**
+	 * Exit the entire application.
+	 * @return 
+	 */
+	@RequestMapping(value = "/exit", method = RequestMethod.GET)
+	public String index()	{
+		Timer timer = new Timer();
+		TimerTask exitApp = new TimerTask() {
+			public void run() {
+				System.exit(0);
+		    }
+		};
+		timer.schedule(exitApp, new Date(System.currentTimeMillis()+2*1000));
+		return "exit";
 	}
 }
