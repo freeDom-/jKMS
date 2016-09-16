@@ -394,7 +394,7 @@ public class Pdf{
 		
     	//insert stats
 		Paragraph head = new Paragraph(headline, titleFont);
-		this.valueFont.setSize(16);
+		this.valueFont.setSize(15.8F);
 		//9GAG rocks!!!
     	head.setAlignment(Element.ALIGN_CENTER);
     	head.setSpacingAfter(20);
@@ -408,7 +408,7 @@ public class Pdf{
 			String deviationValue = String.format("%.2f", Math.round(stats.get("standardDeviation")*100)/100.0);
 	    	
 	    	PdfPTable table = new PdfPTable(3);
-	    	table.setWidthPercentage(90);
+	    	table.setWidthPercentage(100);
 	    	
 	    	PdfPCell cell11 = new PdfPCell(new Paragraph(average + averageValue ,valueFont));
 	    	cell11.setBorder(Rectangle.NO_BORDER);
