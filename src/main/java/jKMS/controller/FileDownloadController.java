@@ -6,9 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,11 +28,15 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfImportedPage;
+import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import jKMS.LogicHelper;
 import jKMS.Pdf;
+import jKMS.cards.BuyerCard;
+import jKMS.cards.Card;
 import jKMS.exceptionHelper.CreateFolderFailedException;
 import jKMS.exceptionHelper.NoContractsException;
 import jKMS.exceptionHelper.NoIntersectionException;
@@ -94,6 +101,86 @@ public class FileDownloadController extends AbstractServerController {
 	    
 	    if(filename == null)
 	    	throw new RuntimeException("False path parameter!");
+	    
+	    headers.setContentDispositionFormData(filename, filename);
+	    headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+	    // Serve Data to the browser
+	    ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+	    return response;
+    }
+    
+    /**
+     * Downloading Template for writing down contracts
+     * @return
+     */
+    @RequestMapping(value = "/pdf/contracts")
+    public ResponseEntity<byte[]> downloadContractsPDF()	{
+     
+    	/**
+         * Do a full read of a PDF file
+         * @param writer a writer to a report file
+         * @param filename the file to read
+         * @throws IOException
+         */
+    	
+    	// Create new Document
+    	Document document = new Document();
+		// Get a new Outputstream for the PDF Library
+		ByteArrayOutputStream outstream = new ByteArrayOutputStream();
+		// Very Handwaving itext-PdfWriter.getInstance method
+		PdfWriter writer;
+		try {
+			writer = PdfWriter.getInstance(document, outstream);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+			// Throw new Exception because were not able to return an Error page at this moment
+			throw new RuntimeException(LogicHelper.getLocalizedMessage("error.PDF.cards"));
+		}
+		
+	    PdfReader reader = null;
+		try {
+			reader = new PdfReader("static/pdf/Contracts_Template_" + LocaleContextHolder.getLocale().getLanguage() + ".pdf");
+		} catch (IOException e) {
+			try {
+				reader = new PdfReader("static/pdf/Contracts_Template_en.pdf");
+			} catch (IOException e1) {}
+		}
+	        
+			// Open document to write in it
+			document.open();
+			document.addTitle("");
+	        document.addAuthor("Pit Market 2.0");
+	        document.addCreator("Pit Market 2.0");
+	        PdfImportedPage page;
+	        page = writer.getImportedPage(reader, 1);
+	        for(int i = 0; i < kms.getPlayerCount()/2/4; i++)	{
+	            try {
+					document.add(Image.getInstance(page));
+				} catch (DocumentException e) {
+					e.printStackTrace();
+					// Throw new Exception because were not able to return an Error page at this moment
+					throw new RuntimeException(LogicHelper.getLocalizedMessage("error.PDF.cards"));
+				}
+	            document.newPage();
+	        }
+			// Close document
+			document.close();
+	        writer.flush();
+	        reader.close();
+        
+        // Close the text file writer
+        writer.close();
+			
+		// Get a byte Array of the pdf
+	    byte[] contents = outstream.toByteArray();
+	    
+	    // Write Headers
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.parseMediaType("application/pdf"));
+	    
+	    // Set the download-Filename
+	    String filename = null;
+	    filename = ControllerHelper.getFilename("filename.PDF.contracts") + ".pdf";
 	    
 	    headers.setContentDispositionFormData(filename, filename);
 	    headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
