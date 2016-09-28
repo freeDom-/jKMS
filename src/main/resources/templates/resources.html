@@ -9,6 +9,15 @@
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 </head>
  <body>
+ 	<!-- path: Show line of actions. [0: hide, prepare: line in preparation, load: line in loading] -->
+ 	<!-- active: Set the active step. [1-4: active step in <path>, lang: show language selection, play1: show stop button] -->
+ 	<!-- extra: Show/Hide different controls:
+ 		1: For page lottery (raffle) -> show main menu, back
+ 		2: For page evaluate -> show Raffle, export, main menu, back
+ 		-1: Hide main menu
+ 		-2: Hide main menu, back button
+ 		-3: Hide back button
+ 			 -->
  	<div id="toolBar" th:fragment="toolBar (path, active, extra)">
  		<img src="/images/logo.png" />
  		<div th:if="(${path} != 0)" id="path">
@@ -35,7 +44,7 @@
 			<li th:if="${extra} == 2">
 				<a href="lottery.html" th:text="#{messages.lottery}"></a>
 			</li>
-	 		<li th:if="${extra} == 1 OR ${extra} == 2">
+	 		<li th:if="${extra} == 2">
 	            <a href="#" th:text="#{messages.export}"></a>
 	            <ul>
 			 		<li><a href="" target="_blank" th:text="#{messages.export.pdf}" onClick="javascript:drawChart(chartContent, 3, contractsStat, distributionsStat, hypBenefitsStat, benefitGraph); return false;" ></a></li>

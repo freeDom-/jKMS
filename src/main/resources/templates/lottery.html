@@ -38,6 +38,7 @@
 		 	<div th:class="((${sprofit} >= '0')? 'successDiv' : 'errorDiv')" th:text="((${sprofit} >= '0')? #{lottery.sprofit} : #{lottery.sLoss}) + ': ' + ${sprofit} + ${currency}"></div> 	
 	 	</div>
 	 	<br />
+	 	<a href="evaluate.html" th:text="#{lottery.backToEval}"></a>
 	 	<a href="index.html" th:text="#{lottery.rerunGame}"></a>
 	 	<a href="exit.html" th:text="#{lottery.exitGame}"></a>
 	</div>
