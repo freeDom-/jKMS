@@ -49,9 +49,7 @@ public class Pdf{
 	private String to;
 	
 	/**
-	 *Defines Fonts
-	 * 
-	 * 		
+	 * Defines Fonts
 	 */		
 	public Pdf(){// to catch crashes
 		FontFactory.defaultEmbedding = true;
@@ -75,8 +73,6 @@ public class Pdf{
 	 * @param  kms			the actual instance of Kartoffelmarktspiel for determining some important information
 	 * @param  cardsBuyer	document for export
 	 */
-
-
 	public void createPdfCards(Class<? extends Card> CardType, Kartoffelmarktspiel kms, Document cardsBuyer) throws DocumentException,IOException{ 
     	//Author: Justus (Timon with the good idea)
     	//----------------------DEFINATIONS-----------------------------------
@@ -239,8 +235,7 @@ public class Pdf{
 	 * @param  card		card to generate
 	 * @param  istop    different formations of top an bottomcards	
 	 * @return paragraph with the generated cards	
-	 */	 
-	
+	 */
     private Paragraph createCard(Card card,boolean isTop){
     	
     	Paragraph content = new Paragraph();
@@ -280,6 +275,7 @@ public class Pdf{
         	
     	return content;
     }
+    
 	/**
 	 *generate the titlepage for seller or buyer pdf it contains a table with the packageinformation
 	 * 
@@ -289,7 +285,6 @@ public class Pdf{
 	 * @param  cards		Set of cards filled in generateCards() (preparetion)
 	 * @return 	a paragraph (itext) with the titlepage
 	 */
-
     private Paragraph Titlepage(Set<Package> packages, boolean isBuyer){
     	
     	Paragraph titlep = new Paragraph();
@@ -352,7 +347,6 @@ public class Pdf{
     	}
     	
 //    	Ehemals sexistische Kackscheiße !!!
-    	
     	cell1y.addElement(allcontent1);
     	cell2y.addElement(allcontent2);
     	cell3y.addElement(allcontent3);
@@ -367,15 +361,14 @@ public class Pdf{
     }
     
 	/**
-	 *generate the export pdf with the statistics and the chart as image
+	 *generate the export pdf with the statistics and the chart(s) as image
 	 * 
 	 * @param doc 		document for export
-	 * @param pdfImages 	List of chart images
+	 * @param pdfImages 	List of chart images, depending on the number of images the pdf consists of 1 or 4 pages
 	 * @param stats  	Map of the statistics 
 	 * @return 	the document (pdf export)
 	 * 		
 	 */	
-    
     public Document createExportPdf(Document doc, LinkedList<Image> pdfImages, Map<String, Float> stats) throws DocumentException{
         
         //get Strings
@@ -401,7 +394,7 @@ public class Pdf{
     	
 		doc.add(head);
 		
-		// Manual PDF export
+		// Manual PDF export - 1 page
 		if(pdfImages.size() == 1)	{
 		
 			String averageValue = String.format("%.2f", Math.round(stats.get("averagePrice")*100)/100.0) + currency;
@@ -456,7 +449,7 @@ public class Pdf{
 			myimg.setAlignment(Image.MIDDLE);
 			doc.add(myimg);
 			
-		}	else	{ // Silent PDF export
+		}	else	{ // Silent PDF export - 4 pages
 			
 			String averageValue = String.format("%.2f", Math.round(stats.get("averagePrice")*100)/100.0) + currency;
 			String deviationValue = String.format("%.2f", Math.round(stats.get("standardDeviation")*100)/100.0);

@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -35,8 +33,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import au.com.bytecode.opencsv.CSVWriter;
 import jKMS.LogicHelper;
 import jKMS.Pdf;
-import jKMS.cards.BuyerCard;
-import jKMS.cards.Card;
 import jKMS.exceptionHelper.CreateFolderFailedException;
 import jKMS.exceptionHelper.NoContractsException;
 import jKMS.exceptionHelper.NoIntersectionException;
@@ -110,18 +106,12 @@ public class FileDownloadController extends AbstractServerController {
     }
     
     /**
-     * Downloading Template for writing down contracts
-     * @return
+     * Downloading Template for writing down contracts in appropriate number.
+     * @return ResponseEntity directly serves the file for download for the browser
+     * @throws IOException If template file could not have been found - assume broken jar.
      */
     @RequestMapping(value = "/pdf/contracts")
-    public ResponseEntity<byte[]> downloadContractsPDF()	{
-     
-    	/**
-         * Do a full read of a PDF file
-         * @param writer a writer to a report file
-         * @param filename the file to read
-         * @throws IOException
-         */
+    public ResponseEntity<byte[]> downloadContractsPDF() throws IOException	{
     	
     	// Create new Document
     	Document document = new Document();
@@ -141,32 +131,30 @@ public class FileDownloadController extends AbstractServerController {
 		try {
 			reader = new PdfReader("static/pdf/Contracts_Template_" + LocaleContextHolder.getLocale().getLanguage() + ".pdf");
 		} catch (IOException e) {
-			try {
-				reader = new PdfReader("static/pdf/Contracts_Template_en.pdf");
-			} catch (IOException e1) {}
+			reader = new PdfReader("static/pdf/Contracts_Template_en.pdf");
 		}
-	        
-			// Open document to write in it
-			document.open();
-			document.addTitle("");
-	        document.addAuthor("Pit Market 2.0");
-	        document.addCreator("Pit Market 2.0");
-	        PdfImportedPage page;
-	        page = writer.getImportedPage(reader, 1);
-	        for(int i = 0; i < kms.getPlayerCount()/2/4; i++)	{
-	            try {
-					document.add(Image.getInstance(page));
-				} catch (DocumentException e) {
-					e.printStackTrace();
-					// Throw new Exception because were not able to return an Error page at this moment
-					throw new RuntimeException(LogicHelper.getLocalizedMessage("error.PDF.cards"));
-				}
-	            document.newPage();
-	        }
-			// Close document
-			document.close();
-	        writer.flush();
-	        reader.close();
+
+		// Open document to write to it
+		document.open();
+		document.addTitle(LogicHelper.getLocalizedMessage("filename.PDF.contracts"));
+	    document.addAuthor("Pit Market 2.0");
+	    document.addCreator("Pit Market 2.0");
+	    PdfImportedPage page;
+	    page = writer.getImportedPage(reader, 1);
+	    for(int i = 0; i < kms.getPlayerCount()/2/4; i++)	{
+	        try {
+				document.add(Image.getInstance(page));
+			} catch (DocumentException e) {
+				e.printStackTrace();
+				// Throw new Exception because were not able to return an Error page at this moment
+				throw new RuntimeException(LogicHelper.getLocalizedMessage("error.PDF.cards"));
+			}
+	        document.newPage();
+	    }
+		// Close document
+		document.close();
+	    writer.flush();
+	    reader.close();
         
         // Close the text file writer
         writer.close();
