@@ -40,7 +40,7 @@
 	 	<br />
 	 	<a href="evaluate.html" th:text="#{lottery.backToEval}"></a>
 	 	<a href="index.html" th:text="#{lottery.rerunGame}"></a>
-	 	<a href="exit.html" th:text="#{lottery.exitGame}"></a>
+	 	<a href="exit.html" th:text="#{lottery.exitGame}" th:onclick="'if(!confirm(\'' + #{lottery.confirmExit} + '\')) return false;'"></a>
 	</div>
  </body>
 </html>
