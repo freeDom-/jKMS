@@ -78,7 +78,7 @@ public class ServerController extends AbstractServerController	{
 	 * @param model	Model injection
 	 * @param ra	Redirect Attributes
 	 * @param currency	Currency to set
-	 * @return
+	 * @return Name of template
 	 */
 	@RequestMapping(value = "/currencySettings", method = RequestMethod.POST)
 	public String processSettings(Model model, RedirectAttributes ra,

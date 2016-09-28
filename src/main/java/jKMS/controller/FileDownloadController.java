@@ -51,9 +51,10 @@ public class FileDownloadController extends AbstractServerController {
 	 *  Downloading Seller-/BuyerCardsPDF
 	 *  @param	type	determines the type of pdf ["customer"/"salesman"]
 	 *  @return ResponseEntity directly serves the file for download for the browser
+	 *  @throws Exception
 	 */
     @RequestMapping(value = "/pdf/cards/{type}")
-    public ResponseEntity<byte[]> downloadPDF(@PathVariable String type) throws Exception	{
+    public ResponseEntity<byte[]> downloadPDF(@PathVariable String type)	{
 		
     	// Create new Document
 		Document document = new Document();
@@ -183,6 +184,7 @@ public class FileDownloadController extends AbstractServerController {
      * @param image
      * @throws IllegalStateException
      * @throws NoIntersectionException
+     * @throws CreateFolderFailedException If no folders could have been created
      */
     @RequestMapping(value = "/pdfExport",
     				method = RequestMethod.POST)
@@ -240,6 +242,9 @@ public class FileDownloadController extends AbstractServerController {
      * @param image2 Images for PDF generation
      * @param image3 Images for PDF generation
      * @param image4 Images for PDF generation
+     * @throws IllegalStateException If the user is not a proper state
+     * @throws NoIntersectionException If there is no intersection between demand and supply curve
+     * @throws CreateFolderFailedException If no folders could have been created
      */
     @RequestMapping(value = "/silentPdfExport",
     				method = RequestMethod.POST)
