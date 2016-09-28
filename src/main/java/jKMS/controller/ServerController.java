@@ -73,6 +73,13 @@ public class ServerController extends AbstractServerController	{
 		return "settings";
 	}
 	
+	/**
+	 * Answer post request when changing currency
+	 * @param model	Model injection
+	 * @param ra	Redirect Attributes
+	 * @param currency	Currency to set
+	 * @return
+	 */
 	@RequestMapping(value = "/currencySettings", method = RequestMethod.POST)
 	public String processSettings(Model model, RedirectAttributes ra,
 			@RequestParam(value = "currencies") int currency)	{
@@ -194,7 +201,7 @@ public class ServerController extends AbstractServerController	{
 	
 	/**
 	 * Exit the entire application.
-	 * @return 
+	 * @return Exit page
 	 */
 	@RequestMapping(value = "/exit", method = RequestMethod.GET)
 	public String index()	{
@@ -204,6 +211,7 @@ public class ServerController extends AbstractServerController	{
 				System.exit(0);
 		    }
 		};
+		// First return page, then close application --> schedule exit
 		timer.schedule(exitApp, new Date(System.currentTimeMillis()+2*1000));
 		return "exit";
 	}
