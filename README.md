@@ -3,7 +3,13 @@ Pit Market 2.0
 
 This repo is mainly maintained by siegmund42. Contact him for bugfixes/contributions.
 
-If you want to learn more about the economic background of the game, take a look at the corresponding [paper](http://www.qucosa.de/fileadmin/data/qucosa/documents/21069/CEPIE_WP_04_2016-1.pdf)
+A summary of information about the game is available [here](https://tu-dresden.de/gsw/wirtschaft/cepe/research/Pit-Market-2.0). If you want to learn more about the economic background of the game, take a look at the corresponding [paper](https://ideas.repec.org/p/zbw/tudcep/0416.html)
+
+##How to build
+1. Clone repository
+2. Install _maven3_
+3. Run `maven3 package` in the cloned repo
+4. Executable .jar can be found in the _target_ folder
 
 
 ##How to integrate the project into Eclipse
