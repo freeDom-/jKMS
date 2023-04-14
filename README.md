@@ -34,6 +34,6 @@ A summary of information about the game is available [here](https://tu-dresden.d
 *	Springboot 1.1.8
 *	jQuery 2.1.1, jQuery UI 1.12.0
 *	flot library 0.8.3
-*	itextpdf 5.5.3
+*	itextpdf 5.5.13.3
 *	opencsv 2.3
 *	maven3
